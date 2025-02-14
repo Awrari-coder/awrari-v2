@@ -10,10 +10,10 @@ export default function NavHeader() {
   const [location] = useLocation();
 
   const links = [
-    { href: "/", label: "Home" },
-    { href: "/services", label: "Services" },
-    { href: "/blog", label: "Blog" },
-    { href: "/#contact", label: "Contact", isScroll: true },
+    { href: "/", label: "Home", isScroll: false },
+    { href: "#services", label: "Services", isScroll: true },
+    { href: "/blog", label: "Blog", isScroll: false },
+    { href: "#contact", label: "Contact", isScroll: true },
   ];
 
   const isActiveLink = (href: string) => {
@@ -24,14 +24,13 @@ export default function NavHeader() {
   };
 
   const handleNavClick = (href: string, isScroll?: boolean) => {
-    if (isScroll && href.includes('#')) {
-      const sectionId = href.split('#')[1];
+    if (isScroll && href.startsWith('#')) {
+      const sectionId = href.replace('#', '');
       const element = document.getElementById(sectionId);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        setIsOpen(false); // Close mobile menu if open
       }
-      // Close mobile menu if open
-      setIsOpen(false);
     }
   };
 
@@ -78,7 +77,7 @@ export default function NavHeader() {
             )
           ))}
           <Button
-            onClick={() => handleNavClick('/#contact', true)}
+            onClick={() => handleNavClick('#contact', true)}
             className="cursor-pointer"
           >
             Get Consultation
@@ -141,7 +140,7 @@ export default function NavHeader() {
               <Button 
                 className="w-full cursor-pointer" 
                 onClick={() => {
-                  handleNavClick('/#contact', true);
+                  handleNavClick('#contact', true);
                 }}
               >
                 Get Consultation
