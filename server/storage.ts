@@ -1,4 +1,8 @@
 import { users, type User, type InsertUser } from "@shared/schema";
+import { inquiries, type Inquiry, type InsertInquiry } from "@shared/schema";
+import { drizzle } from "drizzle-orm/neon-http";
+import { neon } from "@neondatabase/serverless";
+import { eq } from "drizzle-orm";
 
 // modify the interface with any CRUD methods
 // you might need
@@ -7,7 +11,11 @@ export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  createInquiry(inquiry: InsertInquiry): Promise<Inquiry>;
 }
+
+const sql = neon(process.env.DATABASE_URL!);
+const db = drizzle(sql);
 
 export class MemStorage implements IStorage {
   private users: Map<number, User>;
@@ -33,6 +41,11 @@ export class MemStorage implements IStorage {
     const user: User = { ...insertUser, id };
     this.users.set(id, user);
     return user;
+  }
+
+  async createInquiry(insertInquiry: InsertInquiry): Promise<Inquiry> {
+    const [inquiry] = await db.insert(inquiries).values(insertInquiry).returning();
+    return inquiry;
   }
 }
 
