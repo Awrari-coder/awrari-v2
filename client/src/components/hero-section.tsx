@@ -13,7 +13,7 @@ export default function HeroSection() {
             animate="visible"
             className="text-4xl md:text-6xl font-bold leading-tight mb-6"
           >
-            Awrari Business and Marketing Solutions
+            Crafting Digital Excellence, One Brand at a Time.
           </motion.h1>
 
           <motion.p
@@ -22,8 +22,21 @@ export default function HeroSection() {
             animate="visible"
             className="text-xl text-gray-600 mb-8"
           >
-            Transform your brand with cutting-edge digital solutions. From marketing to AI integration, we provide everything you need to grow and scale your business.
+            Your all-in-one solution for Digital Marketing, Branding, Web Development, and AI-powered business transformation.
           </motion.p>
+
+          <motion.div
+            variants={fadeIn}
+            initial="hidden"
+            animate="visible"
+            className="flex flex-wrap justify-center gap-2 mb-8"
+          >
+            <span className="text-gray-600">✅ Proven Expertise</span>
+            <span className="mx-2 text-gray-300">|</span>
+            <span className="text-gray-600">✅ Data-Driven Strategies</span>
+            <span className="mx-2 text-gray-300">|</span>
+            <span className="text-gray-600">✅ Creative Excellence</span>
+          </motion.div>
 
           <motion.div
             variants={fadeIn}
