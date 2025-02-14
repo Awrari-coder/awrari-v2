@@ -30,10 +30,10 @@ export default function Services() {
       ],
       cta: "Get Started with Digital Marketing",
       bgPattern: (
-        <svg className="w-full h-full opacity-10" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="30" className="fill-primary/20" />
-          <circle cx="50" cy="50" r="20" className="fill-primary/30" />
-          <circle cx="50" cy="50" r="10" className="fill-primary/40" />
+        <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <circle cx="50" cy="50" r="45" className="fill-primary/10" />
+          <circle cx="50" cy="50" r="35" className="fill-primary/15" />
+          <circle cx="50" cy="50" r="25" className="fill-primary/20" />
         </svg>
       )
     },
@@ -58,10 +58,10 @@ export default function Services() {
       ],
       cta: "Start Brand Transformation",
       bgPattern: (
-        <svg className="w-full h-full opacity-10" viewBox="0 0 100 100">
-          <rect x="20" y="20" width="60" height="60" className="fill-primary/20" transform="rotate(45 50 50)" />
-          <rect x="30" y="30" width="40" height="40" className="fill-primary/30" transform="rotate(45 50 50)" />
-          <rect x="40" y="40" width="20" height="20" className="fill-primary/40" transform="rotate(45 50 50)" />
+        <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <rect x="10" y="10" width="80" height="80" className="fill-primary/10" transform="rotate(45 50 50)" />
+          <rect x="20" y="20" width="60" height="60" className="fill-primary/15" transform="rotate(45 50 50)" />
+          <rect x="30" y="30" width="40" height="40" className="fill-primary/20" transform="rotate(45 50 50)" />
         </svg>
       )
     },
@@ -86,10 +86,10 @@ export default function Services() {
       ],
       cta: "Build Your Digital Platform",
       bgPattern: (
-        <svg className="w-full h-full opacity-10" viewBox="0 0 100 100">
-          <polygon points="50,20 80,40 80,80 50,100 20,80 20,40" className="fill-primary/20" />
-          <polygon points="50,30 70,45 70,75 50,90 30,75 30,45" className="fill-primary/30" />
-          <polygon points="50,40 60,50 60,70 50,80 40,70 40,50" className="fill-primary/40" />
+        <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <polygon points="50,5 95,30 95,70 50,95 5,70 5,30" className="fill-primary/10" />
+          <polygon points="50,15 85,35 85,65 50,85 15,65 15,35" className="fill-primary/15" />
+          <polygon points="50,25 75,40 75,60 50,75 25,60 25,40" className="fill-primary/20" />
         </svg>
       )
     }
@@ -101,7 +101,7 @@ export default function Services() {
 
   return (
     <div className="pt-16 min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <motion.div 
+      <motion.div
         className="container mx-auto px-4 py-20"
         variants={stagger}
         initial="hidden"
@@ -156,7 +156,7 @@ export default function Services() {
                   </div>
                 </div>
 
-                <Button 
+                <Button
                   size="lg"
                   onClick={() => handleContactClick(service.title)}
                   className="mt-6"
@@ -167,9 +167,11 @@ export default function Services() {
               </div>
 
               <Card className={`h-full relative overflow-hidden ${index % 2 === 1 ? 'md:order-1' : ''}`}>
-                <CardContent className="p-6 aspect-square flex items-center justify-center">
-                  {service.bgPattern}
-                  <service.icon className="w-48 h-48 text-primary absolute" />
+                <CardContent className="relative p-0 h-[300px] flex items-center justify-center bg-gradient-to-br from-primary/5 to-primary/10">
+                  <div className="absolute inset-0 w-full h-full">
+                    {service.bgPattern}
+                  </div>
+                  <service.icon className="w-32 h-32 text-primary relative z-10" />
                 </CardContent>
               </Card>
             </motion.div>
