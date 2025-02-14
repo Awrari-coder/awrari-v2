@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import Logo from "./logo";
 
 export default function NavHeader() {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +18,9 @@ export default function NavHeader() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm border-b">
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/">
-          <a className="text-2xl font-bold text-primary">Awrari</a>
+          <a className="hover:opacity-90 transition-opacity">
+            <Logo size="sm" />
+          </a>
         </Link>
 
         {/* Desktop Navigation */}
