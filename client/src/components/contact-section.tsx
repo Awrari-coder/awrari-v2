@@ -22,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Loader2 } from "lucide-react";
 
 export default function ContactSection() {
   const { toast } = useToast();
@@ -38,19 +39,29 @@ export default function ContactSection() {
 
   const mutation = useMutation({
     mutationFn: async (data: InsertInquiry) => {
-      await apiRequest("POST", "/api/inquiries", data);
+      try {
+        const response = await apiRequest("POST", "/api/inquiries", data);
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.message || 'Failed to send message');
+        }
+        return await response.json();
+      } catch (error) {
+        throw error instanceof Error ? error : new Error('Failed to send message');
+      }
     },
     onSuccess: () => {
       toast({
-        title: "Success",
-        description: "Your message has been sent. We'll be in touch soon!",
+        title: "Message Sent!",
+        description: "Thank you for reaching out. We'll get back to you soon!",
+        variant: "default",
       });
       form.reset();
     },
-    onError: () => {
+    onError: (error: Error) => {
       toast({
-        title: "Error",
-        description: "Something went wrong. Please try again.",
+        title: "Failed to send message",
+        description: error.message || "Please try again later.",
         variant: "destructive",
       });
     },
@@ -107,10 +118,10 @@ export default function ContactSection() {
                   <FormItem>
                     <FormLabel>Company (Optional)</FormLabel>
                     <FormControl>
-                      <Input 
-                        placeholder="Your company" 
-                        {...field} 
-                        value={field.value || ''} 
+                      <Input
+                        placeholder="Your company"
+                        {...field}
+                        value={field.value || ""}
                       />
                     </FormControl>
                     <FormMessage />
@@ -162,9 +173,16 @@ export default function ContactSection() {
               <Button
                 type="submit"
                 className="w-full"
-                disabled={mutation.isPending}
+                disabled={mutation.isLoading}
               >
-                {mutation.isPending ? "Sending..." : "Send Message"}
+                {mutation.isLoading ? (
+                  <span className="flex items-center gap-2">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Sending...
+                  </span>
+                ) : (
+                  "Send Message"
+                )}
               </Button>
             </form>
           </Form>
