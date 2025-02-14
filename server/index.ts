@@ -6,6 +6,24 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Add security headers
+app.use((req, res, next) => {
+  // Basic security headers
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+
+  // Allow your domain
+  const allowedOrigins = ['https://awrarisolution.com', 'https://www.awrarisolution.com'];
+  const origin = req.headers.origin;
+  if (origin && allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+
+  next();
+});
+
+// Request logging middleware
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
@@ -44,7 +62,7 @@ app.use((req, res, next) => {
     const message = err.message || "Internal Server Error";
 
     res.status(status).json({ message });
-    throw err;
+    console.error(err);
   });
 
   if (app.get("env") === "development") {
@@ -53,24 +71,21 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // Use PORT from environment or fallback to 3000
-  const PORT = process.env.PORT || 3000;
+  const PORT = parseInt(process.env.PORT || '3000', 10);
+  const HOST = '0.0.0.0'; // Listen on all network interfaces
 
-  const startServer = () => {
-    server.listen(PORT, () => {
-      log(`Server running on port ${PORT}`);
-    }).on('error', (err: any) => {
-      if (err.code === 'EADDRINUSE') {
-        log(`Port ${PORT} is in use, trying alternative port...`);
-        server.listen(0, () => {
-          const actualPort = (server.address() as any).port;
-          log(`Server running on port ${actualPort}`);
-        });
-      } else {
-        throw err;
-      }
-    });
-  };
-
-  startServer();
+  server.listen(PORT, HOST, () => {
+    log(`Server running on port ${PORT}`);
+  }).on('error', (err: any) => {
+    if (err.code === 'EADDRINUSE') {
+      log(`Port ${PORT} is in use, trying alternative port...`);
+      server.listen(0, HOST, () => {
+        const actualPort = (server.address() as any).port;
+        log(`Server running on port ${actualPort}`);
+      });
+    } else {
+      console.error('Server failed to start:', err);
+      process.exit(1);
+    }
+  });
 })();
