@@ -65,24 +65,28 @@ export default function ServicesSection() {
         >
           {services.map((service, index) => (
             <motion.div key={index} variants={fadeInUp}>
-              <Card className="h-full hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <service.icon className="w-12 h-12 text-primary mb-4" />
-                  <CardTitle>{service.title}</CardTitle>
-                  <p className="text-gray-600 mt-2">{service.description}</p>
+              <Card className="h-full hover:shadow-lg transition-shadow flex flex-col">
+                <CardHeader className="flex-none">
+                  <div className="flex items-center justify-center mb-6">
+                    <service.icon className="w-16 h-16 text-primary" />
+                  </div>
+                  <CardTitle className="text-xl text-center mb-2">{service.title}</CardTitle>
+                  <p className="text-gray-600 text-center">{service.description}</p>
                 </CardHeader>
-                <CardContent>
-                  <ul className="space-y-3 mb-6">
+                <CardContent className="flex-grow flex flex-col">
+                  <ul className="space-y-3 mb-6 flex-grow">
                     {service.features.map((feature, idx) => (
                       <li key={idx} className="flex items-start gap-2">
-                        <span className="text-primary">•</span>
-                        <span className="text-gray-600">{feature}</span>
+                        <span className="text-primary mt-1">•</span>
+                        <span className="text-gray-600 text-sm">{feature}</span>
                       </li>
                     ))}
                   </ul>
-                  <Button className="w-full group">
-                    {service.cta}
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  <Button className="w-full mt-auto group">
+                    <span className="mx-auto flex items-center">
+                      {service.cta}
+                      <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </span>
                   </Button>
                 </CardContent>
               </Card>
