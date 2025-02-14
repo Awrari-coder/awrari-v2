@@ -9,6 +9,7 @@ export default function NavHeader() {
 
   const links = [
     { href: "#services", label: "Services" },
+    { href: "/blog", label: "Blog" },
     { href: "#contact", label: "Contact" },
   ];
 
@@ -22,13 +23,14 @@ export default function NavHeader() {
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-8">
           {links.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-gray-600 hover:text-primary transition-colors"
             >
-              {link.label}
-            </a>
+              <a className="text-sm font-medium text-gray-600 hover:text-primary transition-colors">
+                {link.label}
+              </a>
+            </Link>
           ))}
           <Button>Get Started</Button>
         </div>
@@ -53,14 +55,17 @@ export default function NavHeader() {
         >
           <div className="flex flex-col gap-4">
             {links.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-gray-600 hover:text-primary transition-colors"
-                onClick={() => setIsOpen(false)}
               >
-                {link.label}
-              </a>
+                <a
+                  className="text-sm font-medium text-gray-600 hover:text-primary transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {link.label}
+                </a>
+              </Link>
             ))}
             <Button className="w-full">Get Started</Button>
           </div>
