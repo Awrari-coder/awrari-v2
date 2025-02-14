@@ -11,23 +11,15 @@ export default function Services() {
   const services = [
     {
       title: "Digital Marketing & Growth",
-      description: "Boost your online presence with our comprehensive digital marketing solutions.",
-      detailedDescription: "Our digital marketing experts leverage cutting-edge strategies to enhance your brand visibility and drive meaningful engagement. We combine data-driven insights with creative excellence to deliver results that matter.",
+      description: "Elevate your brand visibility and drive engagement through data-driven digital marketing strategies.",
       features: [
-        "SEO Optimization & Analysis Reports",
-        "Social Media Marketing & Advertising",
-        "Community Management",
-        "Email Marketing Campaigns",
-        "Content Strategy & AI-Powered Blogging"
+        "SEO & Analytics",
+        "Social Media Marketing",
+        "Content Strategy",
+        "Email Campaigns",
+        "Performance Tracking"
       ],
-      benefits: [
-        "Increased online visibility",
-        "Higher conversion rates",
-        "Improved brand awareness",
-        "Better customer engagement",
-        "Data-driven decision making"
-      ],
-      cta: "Get Started with Digital Marketing",
+      cta: "Start Growing",
       bgPattern: (
         <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
           <circle cx="50" cy="50" r="45" className="fill-primary/10" />
@@ -36,23 +28,15 @@ export default function Services() {
     },
     {
       title: "Branding & Creative Design",
-      description: "Create a memorable brand identity with our expert design services.",
-      detailedDescription: "Transform your brand with our creative design expertise. We craft unique visual identities that resonate with your audience and set you apart from the competition.",
+      description: "Create a memorable brand identity that resonates with your audience and sets you apart.",
       features: [
-        "Brand Strategy Development",
-        "Visual Identity Design",
-        "Custom Brand Illustrations",
-        "Professional Presentation Design",
-        "Video Marketing & Production"
+        "Brand Strategy",
+        "Visual Identity",
+        "Custom Graphics",
+        "Marketing Materials",
+        "Brand Guidelines"
       ],
-      benefits: [
-        "Distinctive brand identity",
-        "Professional market presence",
-        "Consistent brand messaging",
-        "Enhanced brand recognition",
-        "Improved customer trust"
-      ],
-      cta: "Start Brand Transformation",
+      cta: "Build Your Brand",
       bgPattern: (
         <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
           <rect x="10" y="10" width="80" height="80" className="fill-primary/10" transform="rotate(45 50 50)" />
@@ -60,24 +44,16 @@ export default function Services() {
       )
     },
     {
-      title: "Web & AI-Powered Solutions",
-      description: "Build powerful digital platforms with cutting-edge technology.",
-      detailedDescription: "Leverage the power of modern web technologies and artificial intelligence to create exceptional digital experiences. Our solutions are built for performance, scalability, and innovation.",
+      title: "Web & AI Solutions",
+      description: "Build powerful digital platforms with cutting-edge technology and AI integration.",
       features: [
-        "Custom Website Development",
-        "E-Commerce Solutions",
-        "AI & Chatbot Integration",
-        "Digital Presence Optimization",
-        "Smart Business Automation"
+        "Custom Development",
+        "AI Integration",
+        "E-Commerce",
+        "Cloud Solutions",
+        "Performance Optimization"
       ],
-      benefits: [
-        "Enhanced user experience",
-        "Improved operational efficiency",
-        "Scalable digital infrastructure",
-        "Advanced analytics capabilities",
-        "Future-proof technology stack"
-      ],
-      cta: "Build Your Digital Platform",
+      cta: "Get Started",
       bgPattern: (
         <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
           <polygon points="50,5 95,30 95,70 50,95 5,70 5,30" className="fill-primary/10" />
@@ -103,11 +79,11 @@ export default function Services() {
             Our Services
           </h1>
           <p className="text-xl text-gray-600">
-            Comprehensive digital solutions tailored to elevate your business in the modern age.
+            Comprehensive digital solutions to elevate your business
           </p>
         </motion.div>
 
-        <div className="space-y-20">
+        <div className="space-y-16">
           {services.map((service, index) => (
             <motion.div
               key={index}
@@ -116,33 +92,16 @@ export default function Services() {
             >
               <div className={`space-y-6 ${index % 2 === 1 ? 'md:order-2' : ''}`}>
                 <h2 className="text-3xl font-bold">{service.title}</h2>
-                <p className="text-gray-600 text-lg">{service.detailedDescription}</p>
+                <p className="text-gray-600 text-lg">{service.description}</p>
 
-                <div className="grid sm:grid-cols-2 gap-6">
-                  <div>
-                    <h3 className="font-semibold mb-4">Key Features</h3>
-                    <ul className="space-y-3">
-                      {service.features.map((feature, idx) => (
-                        <li key={idx} className="flex items-start gap-2">
-                          <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                          <span className="text-gray-600">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h3 className="font-semibold mb-4">Benefits</h3>
-                    <ul className="space-y-3">
-                      {service.benefits.map((benefit, idx) => (
-                        <li key={idx} className="flex items-start gap-2">
-                          <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                          <span className="text-gray-600">{benefit}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
+                <ul className="space-y-3">
+                  {service.features.map((feature, idx) => (
+                    <li key={idx} className="flex items-center gap-2">
+                      <Check className="w-5 h-5 text-primary flex-shrink-0" />
+                      <span className="text-gray-600">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
 
                 <Button
                   size="lg"
