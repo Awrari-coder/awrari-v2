@@ -98,7 +98,7 @@ export default function ServicesSection() {
   const handleServiceClick = (href: string, service: string) => {
     const element = document.querySelector(href);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
     }
     setLocation(`${href}?service=${encodeURIComponent(service)}`);
   };
