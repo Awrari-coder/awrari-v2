@@ -22,7 +22,15 @@ export default function Services() {
       icon: BarChart3,
       bgPattern: (
         <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <circle cx="50" cy="50" r="45" className="fill-primary/10" />
+          <defs>
+            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style={{ stopColor: 'var(--primary)', stopOpacity: 0.1 }} />
+              <stop offset="100%" style={{ stopColor: 'var(--primary)', stopOpacity: 0.05 }} />
+            </linearGradient>
+          </defs>
+          <circle cx="50" cy="50" r="45" fill="url(#grad1)" />
+          <circle cx="50" cy="50" r="35" className="fill-primary/5" />
+          <circle cx="50" cy="50" r="25" className="fill-primary/3" />
         </svg>
       )
     },
@@ -39,7 +47,15 @@ export default function Services() {
       icon: Palette,
       bgPattern: (
         <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <rect x="10" y="10" width="80" height="80" className="fill-primary/10" transform="rotate(45 50 50)" />
+          <defs>
+            <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style={{ stopColor: 'var(--primary)', stopOpacity: 0.1 }} />
+              <stop offset="100%" style={{ stopColor: 'var(--primary)', stopOpacity: 0.05 }} />
+            </linearGradient>
+          </defs>
+          <rect x="15" y="15" width="70" height="70" fill="url(#grad2)" transform="rotate(45 50 50)" />
+          <rect x="25" y="25" width="50" height="50" className="fill-primary/5" transform="rotate(45 50 50)" />
+          <rect x="35" y="35" width="30" height="30" className="fill-primary/3" transform="rotate(45 50 50)" />
         </svg>
       )
     },
@@ -56,7 +72,15 @@ export default function Services() {
       icon: Code,
       bgPattern: (
         <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <polygon points="50,5 95,30 95,70 50,95 5,70 5,30" className="fill-primary/10" />
+          <defs>
+            <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style={{ stopColor: 'var(--primary)', stopOpacity: 0.1 }} />
+              <stop offset="100%" style={{ stopColor: 'var(--primary)', stopOpacity: 0.05 }} />
+            </linearGradient>
+          </defs>
+          <polygon points="50,5 95,30 95,70 50,95 5,70 5,30" fill="url(#grad3)" />
+          <polygon points="50,15 85,35 85,65 50,85 15,65 15,35" className="fill-primary/5" />
+          <polygon points="50,25 75,40 75,60 50,75 25,60 25,40" className="fill-primary/3" />
         </svg>
       )
     }
@@ -94,12 +118,12 @@ export default function Services() {
             >
               <Card className="h-full hover:shadow-lg transition-shadow">
                 <CardContent className="p-6 space-y-4">
-                  <div className="h-32 relative -mt-2 mb-4">
-                    <div className="absolute inset-0 opacity-75">
+                  <div className="h-32 relative -mt-2 mb-4 group">
+                    <div className="absolute inset-0 transition-transform duration-300 group-hover:scale-105">
                       {service.bgPattern}
                     </div>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <service.icon className="w-16 h-16 text-primary/80" />
+                      <service.icon className="w-16 h-16 text-primary/80 transition-transform duration-300 group-hover:scale-110" />
                     </div>
                   </div>
 
