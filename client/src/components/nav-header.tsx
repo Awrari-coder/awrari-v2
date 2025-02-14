@@ -8,7 +8,7 @@ export default function NavHeader() {
   const [isOpen, setIsOpen] = useState(false);
 
   const links = [
-    { href: "#services", label: "Services" },
+    { href: "/services", label: "Services" },
     { href: "/blog", label: "Blog" },
     { href: "#contact", label: "Contact" },
   ];
