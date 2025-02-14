@@ -12,6 +12,7 @@ export interface IStorage {
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
   createInquiry(inquiry: InsertInquiry): Promise<Inquiry>;
+  getInquiries(): Promise<Inquiry[]>;
 }
 
 const sql = neon(process.env.DATABASE_URL!);
@@ -46,6 +47,10 @@ export class MemStorage implements IStorage {
   async createInquiry(insertInquiry: InsertInquiry): Promise<Inquiry> {
     const [inquiry] = await db.insert(inquiries).values(insertInquiry).returning();
     return inquiry;
+  }
+
+  async getInquiries(): Promise<Inquiry[]> {
+    return await db.select().from(inquiries);
   }
 }
 

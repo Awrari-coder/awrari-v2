@@ -5,6 +5,15 @@ import { insertInquirySchema } from "@shared/schema";
 import { ZodError } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  app.get("/api/inquiries", async (_req, res) => {
+    try {
+      const inquiries = await storage.getInquiries();
+      res.json(inquiries);
+    } catch (err) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
   app.post("/api/inquiries", async (req, res) => {
     try {
       const inquiry = insertInquirySchema.parse(req.body);
