@@ -47,29 +47,41 @@ export default function NavHeader() {
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-8">
           {links.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={(e) => {
-                if (link.isScroll) {
+            link.isScroll ? (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={(e) => {
                   e.preventDefault();
-                  handleNavClick(link.href, link.isScroll);
-                }
-              }}
-              className={`text-sm font-medium transition-colors cursor-pointer ${
-                isActiveLink(link.href)
-                  ? "text-primary"
-                  : "text-gray-600 hover:text-primary"
-              }`}
-            >
-              {link.label}
-            </a>
+                  handleNavClick(link.href, true);
+                }}
+                className={`text-sm font-medium transition-colors cursor-pointer ${
+                  isActiveLink(link.href)
+                    ? "text-primary"
+                    : "text-gray-600 hover:text-primary"
+                }`}
+              >
+                {link.label}
+              </a>
+            ) : (
+              <Link key={link.href} href={link.href}>
+                <a
+                  className={`text-sm font-medium transition-colors cursor-pointer ${
+                    isActiveLink(link.href)
+                      ? "text-primary"
+                      : "text-gray-600 hover:text-primary"
+                  }`}
+                >
+                  {link.label}
+                </a>
+              </Link>
+            )
           ))}
           <Button
             onClick={() => handleNavClick('/#contact', true)}
             className="cursor-pointer"
           >
-            Get Started
+            Get Consultation
           </Button>
         </div>
 
@@ -95,29 +107,44 @@ export default function NavHeader() {
           >
             <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
               {links.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={(e) => {
-                    if (link.isScroll) {
+                link.isScroll ? (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={(e) => {
                       e.preventDefault();
-                      handleNavClick(link.href, link.isScroll);
-                    }
-                  }}
-                  className={`text-sm font-medium p-2 rounded-md transition-colors ${
-                    isActiveLink(link.href)
-                      ? "text-primary bg-primary/5"
-                      : "text-gray-600 hover:text-primary hover:bg-gray-50"
-                  }`}
-                >
-                  {link.label}
-                </a>
+                      handleNavClick(link.href, true);
+                    }}
+                    className={`text-sm font-medium p-2 rounded-md transition-colors ${
+                      isActiveLink(link.href)
+                        ? "text-primary bg-primary/5"
+                        : "text-gray-600 hover:text-primary hover:bg-gray-50"
+                    }`}
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link key={link.href} href={link.href}>
+                    <a
+                      className={`text-sm font-medium p-2 rounded-md transition-colors ${
+                        isActiveLink(link.href)
+                          ? "text-primary bg-primary/5"
+                          : "text-gray-600 hover:text-primary hover:bg-gray-50"
+                      }`}
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {link.label}
+                    </a>
+                  </Link>
+                )
               ))}
               <Button 
                 className="w-full cursor-pointer" 
-                onClick={() => handleNavClick('/#contact', true)}
+                onClick={() => {
+                  handleNavClick('/#contact', true);
+                }}
               >
-                Get Started
+                Get Consultation
               </Button>
             </div>
           </motion.div>
