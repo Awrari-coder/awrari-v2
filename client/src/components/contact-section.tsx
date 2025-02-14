@@ -107,7 +107,11 @@ export default function ContactSection() {
                   <FormItem>
                     <FormLabel>Company (Optional)</FormLabel>
                     <FormControl>
-                      <Input placeholder="Your company" {...field} />
+                      <Input 
+                        placeholder="Your company" 
+                        {...field} 
+                        value={field.value || ''} 
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
