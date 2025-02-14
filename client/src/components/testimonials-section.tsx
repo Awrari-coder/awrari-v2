@@ -13,7 +13,7 @@ import { Quote } from "lucide-react";
 const testimonials = [
   {
     quote: "Awrari transformed our customer engagement strategy. Their innovative digital solutions helped us modernize our perks platform and increase user satisfaction by 85%.",
-    author: "Samuel Johnson",
+    author: "Samuel Dereb",
     role: "Marketing Director",
     company: "Universal Perks IT Solutions",
   },
