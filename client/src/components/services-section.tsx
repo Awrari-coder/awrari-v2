@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { MonitorSmartphone, BarChart3, Database, ArrowRight } from "lucide-react";
-import { stagger, fadeInUp } from "@/lib/animations";
+import { fadeIn } from "@/lib/animations";
 import { Button } from "@/components/ui/button";
 
 const services = [
@@ -49,29 +49,37 @@ export default function ServicesSection() {
   return (
     <section id="services" className="py-20 bg-white">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold mb-4">Featured Services</h2>
+        <motion.div 
+          className="text-center mb-12"
+          initial="initial"
+          animate="animate"
+          variants={fadeIn}
+        >
+          <h2 className="text-3xl font-bold mb-4">Our Services</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
             We provide comprehensive digital solutions to help your business thrive in the modern age.
           </p>
-        </div>
+        </motion.div>
 
-        <motion.div 
-          variants={stagger}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid md:grid-cols-3 gap-8"
-        >
+        <div className="grid md:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <motion.div key={index} variants={fadeInUp}>
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.2, duration: 0.4 }}
+            >
               <Card className="h-full hover:shadow-lg transition-shadow flex flex-col">
                 <CardHeader className="flex-none">
-                  <div className="flex items-center justify-center mb-6">
-                    <service.icon className="w-16 h-16 text-primary" />
+                  <div className="flex items-center justify-center mb-4">
+                    <service.icon className="w-12 h-12 text-primary" />
                   </div>
-                  <CardTitle className="text-xl text-center mb-2">{service.title}</CardTitle>
-                  <p className="text-gray-600 text-center">{service.description}</p>
+                  <CardTitle className="text-xl text-center mb-2">
+                    {service.title}
+                  </CardTitle>
+                  <p className="text-gray-600 text-center text-sm">
+                    {service.description}
+                  </p>
                 </CardHeader>
                 <CardContent className="flex-grow flex flex-col">
                   <ul className="space-y-3 mb-6 flex-grow">
@@ -82,17 +90,17 @@ export default function ServicesSection() {
                       </li>
                     ))}
                   </ul>
-                  <Button className="w-full mt-auto group">
-                    <span className="mx-auto flex items-center">
+                  <Button className="w-full mt-auto">
+                    <span className="mx-auto flex items-center gap-2">
                       {service.cta}
-                      <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="h-4 w-4" />
                     </span>
                   </Button>
                 </CardContent>
               </Card>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

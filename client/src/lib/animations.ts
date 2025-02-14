@@ -1,35 +1,24 @@
 export const fadeIn = {
-  hidden: { opacity: 0 },
-  visible: { 
+  initial: { opacity: 0 },
+  animate: { 
     opacity: 1,
-    transition: { duration: 0.6 }
+    transition: { duration: 0.4 }
   }
 };
 
 export const slideUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
+  initial: { opacity: 0, y: 20 },
+  animate: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6 }
-  }
-};
-
-export const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5 }
+    transition: { duration: 0.4 }
   }
 };
 
 export const stagger = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
+  animate: {
     transition: {
-      staggerChildren: 0.2
+      staggerChildren: 0.1
     }
   }
 };

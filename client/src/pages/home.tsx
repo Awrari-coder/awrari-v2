@@ -4,7 +4,7 @@ import ContactSection from "@/components/contact-section";
 
 export default function Home() {
   return (
-    <main>
+    <main className="bg-background">
       <HeroSection />
       <ServicesSection />
       <ContactSection />
