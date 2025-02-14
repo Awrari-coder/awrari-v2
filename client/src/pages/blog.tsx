@@ -1,44 +1,42 @@
 import { motion } from "framer-motion";
 import { fadeIn, slideUp, stagger } from "@/lib/animations";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { CalendarDays, Clock, ArrowRight } from "lucide-react";
 
 export default function Blog() {
-  const sections = [
+  const blogPosts = [
     {
-      title: "Digital Marketing & Growth",
-      icon: "📈",
-      items: [
-        "SEO Optimization – Rank higher on search engines and drive organic traffic",
-        "SEO Analysis Reports – Gain insights into your website's performance",
-        "Social Media Optimization (SMO) – Engage with your audience",
-        "Social Media Advertising – Drive targeted traffic",
-        "Community Management – Build and nurture a loyal customer base",
-        "Email Marketing – Create high-converting email campaigns",
-        "Content Strategy – Develop a winning content plan",
-        "Automated Blog Services – Let AI handle your blog updates"
-      ]
+      title: "10 Digital Transformation Trends Reshaping Business in 2025",
+      date: "February 14, 2025",
+      readTime: "5 min read",
+      excerpt: "Discover the latest digital transformation trends that are revolutionizing how businesses operate. From AI integration to cloud solutions, learn what's driving change in today's digital landscape.",
+      category: "Digital Transformation",
+      image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&auto=format",
     },
     {
-      title: "Branding & Creative Design",
-      icon: "🎨",
-      items: [
-        "Graphic Design & Illustration – Stunning visuals that bring your brand to life",
-        "Custom Illustration – Unique artwork tailored to your brand identity",
-        "Presentation Design – Professionally designed slides",
-        "Video Marketing – High-quality video production"
-      ]
+      title: "Maximizing ROI with Data-Driven Marketing Strategies",
+      date: "February 12, 2025",
+      readTime: "7 min read",
+      excerpt: "Learn how to leverage data analytics and AI to create marketing campaigns that deliver measurable results. Explore real-world case studies and practical implementation strategies.",
+      category: "Marketing",
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&auto=format",
     },
     {
-      title: "Web & AI-Powered Solutions",
-      icon: "🌐",
-      items: [
-        "Website Design & Development – Custom-built, high-performance websites",
-        "E-Commerce Development – Scalable online stores with payment integration",
-        "AI Integration – Smart automation for increased efficiency",
-        "AI Voice & Chatbot Integration – Automated customer support",
-        "Digital Presence Optimization – Comprehensive brand visibility"
-      ]
+      title: "The Essential Guide to Modern Branding in the Digital Age",
+      date: "February 10, 2025",
+      readTime: "6 min read",
+      excerpt: "Navigate the complexities of building a strong brand identity in today's digital world. From visual design to voice and tone, discover what makes brands stand out.",
+      category: "Branding",
+      image: "https://images.unsplash.com/photo-1434626881859-194d67b2b86f?w=500&auto=format",
+    },
+    {
+      title: "AI-Powered Customer Service: The Future of Business Communication",
+      date: "February 8, 2025",
+      readTime: "4 min read",
+      excerpt: "Explore how artificial intelligence is transforming customer service operations. Learn about chatbots, automation, and maintaining the human touch in digital interactions.",
+      category: "AI Solutions",
+      image: "https://images.unsplash.com/photo-1488229297570-58520851e868?w=500&auto=format",
     }
   ];
 
@@ -52,55 +50,56 @@ export default function Blog() {
       >
         <motion.div variants={slideUp} className="max-w-3xl mx-auto text-center mb-16">
           <h1 className="text-4xl font-bold mb-6">
-            Unlock Your Business Potential with Our Digital Solutions
+            Latest Insights & Industry Trends
           </h1>
           <p className="text-xl text-gray-600">
-            In today's fast-paced world, your business needs more than just an online presence—it needs to stand out, engage, and grow.
+            Stay updated with our latest thoughts on digital transformation, marketing strategies, and business innovation.
           </p>
         </motion.div>
 
-        <motion.div variants={stagger} className="space-y-12">
-          {sections.map((section, index) => (
+        <motion.div variants={stagger} className="grid md:grid-cols-2 gap-8">
+          {blogPosts.map((post, index) => (
             <motion.div key={index} variants={fadeIn}>
-              <Card>
+              <Card className="h-full hover:shadow-lg transition-shadow overflow-hidden group">
+                <div className="aspect-video overflow-hidden">
+                  <img 
+                    src={post.image} 
+                    alt={post.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
                 <CardHeader>
-                  <div className="flex items-center gap-4">
-                    <span className="text-4xl">{section.icon}</span>
-                    <h2 className="text-2xl font-bold">{section.title}</h2>
+                  <div className="flex items-center gap-4 text-sm text-gray-500 mb-2">
+                    <span className="flex items-center gap-1">
+                      <CalendarDays className="h-4 w-4" />
+                      {post.date}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Clock className="h-4 w-4" />
+                      {post.readTime}
+                    </span>
                   </div>
+                  <CardTitle className="text-xl">{post.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ul className="space-y-4">
-                    {section.items.map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-2">
-                        <span className="text-primary">🔹</span>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <Button className="mt-6">Learn More</Button>
+                  <p className="text-gray-600 mb-4">{post.excerpt}</p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-primary">{post.category}</span>
+                    <Button variant="ghost" className="group/btn">
+                      Read More
+                      <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             </motion.div>
           ))}
         </motion.div>
 
-        <motion.div variants={fadeIn} className="text-center mt-16">
-          <h3 className="text-2xl font-bold mb-6">Why Choose Us?</h3>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="p-6 bg-white rounded-lg shadow-sm">
-              <p className="font-bold mb-2">✅ Clarity</p>
-              <p>We simplify digital solutions, making them easy to understand and implement.</p>
-            </div>
-            <div className="p-6 bg-white rounded-lg shadow-sm">
-              <p className="font-bold mb-2">✅ Excellence</p>
-              <p>Every project is executed with precision and high-quality standards.</p>
-            </div>
-            <div className="p-6 bg-white rounded-lg shadow-sm">
-              <p className="font-bold mb-2">✅ Certainty</p>
-              <p>We provide results-driven strategies that ensure success.</p>
-            </div>
-          </div>
+        <motion.div variants={fadeIn} className="text-center mt-12">
+          <Button size="lg" variant="outline">
+            Load More Articles
+          </Button>
         </motion.div>
       </motion.div>
     </div>
