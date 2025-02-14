@@ -15,7 +15,7 @@ const testimonials = [
     quote: "Awrari transformed our customer engagement strategy. Their innovative digital solutions helped us modernize our perks platform and increase user satisfaction by 85%.",
     author: "Samuel Johnson",
     role: "Marketing Director",
-    company: "Universal Perks",
+    company: "Universal Perks IT Solutions",
   },
   {
     quote: "The real estate market demands a strong digital presence, and Awrari delivered exactly that. Their web development and AI integration helped us streamline property listings and improve client interactions.",
