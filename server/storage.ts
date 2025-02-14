@@ -1,14 +1,11 @@
 import { users, type User, type InsertUser } from "@shared/schema";
 import { inquiries, type Inquiry, type InsertInquiry } from "@shared/schema";
-import { drizzle } from "drizzle-orm/neon-http";
-import { neon } from "@neondatabase/serverless";
-import { eq } from "drizzle-orm";
 import session from "express-session";
 import connectPg from "connect-pg-simple";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 const PostgresSessionStore = connectPg(session);
-const sql = neon(process.env.DATABASE_URL!);
-const db = drizzle(sql);
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
@@ -19,14 +16,10 @@ export interface IStorage {
   sessionStore: session.Store;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  currentId: number;
+export class DatabaseStorage implements IStorage {
   sessionStore: session.Store;
 
   constructor() {
-    this.users = new Map();
-    this.currentId = 1;
     this.sessionStore = new PostgresSessionStore({
       conObject: {
         connectionString: process.env.DATABASE_URL,
@@ -60,4 +53,4 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
