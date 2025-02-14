@@ -73,6 +73,18 @@ export default function ContactSection() {
         variant: "default",
       });
       form.reset();
+
+      // Scroll to contact section
+      const contactSection = document.getElementById('contact');
+      if (contactSection) {
+        contactSection.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+
+      // Update URL with contact section hash
+      window.history.pushState(null, '', '#contact');
     },
     onError: (error: Error) => {
       toast({
