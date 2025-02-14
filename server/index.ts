@@ -8,7 +8,7 @@ app.use(express.urlencoded({ extended: false }));
 
 const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || 
   (process.env.NODE_ENV === "production" 
-    ? ['https://awrarisolution.com', 'https://www.awrarisolution.com']
+    ? ['https://awraribusinesssolution.replit.app']
     : ['*']);
 
 // Security headers
@@ -58,7 +58,7 @@ app.use((req, res, next) => {
       serveStatic(app);
     }
 
-    const port = parseInt(process.env.PORT || "3000", 10);
+    const port = parseInt(process.env.PORT || "5000", 10);
     server.listen(port, "0.0.0.0", () => {
       log(`Server running on port ${port} in ${process.env.NODE_ENV || 'development'} mode`);
     });

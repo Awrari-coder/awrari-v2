@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { insertInquirySchema } from "@shared/schema";
 import { ZodError } from "zod";
 import { setupAuth } from "./auth";
+import { log } from "./vite";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Set up authentication
@@ -19,20 +20,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const inquiries = await storage.getInquiries();
       res.json(inquiries);
     } catch (err) {
+      log(`Error fetching inquiries: ${err}`);
       res.status(500).json({ message: "Internal server error" });
     }
   });
 
   // Public route - accessible to everyone
   app.post("/api/inquiries", async (req, res) => {
+    log(`Received inquiry submission: ${JSON.stringify(req.body)}`);
+
     try {
       const inquiry = insertInquirySchema.parse(req.body);
+      log(`Validation passed for inquiry from ${inquiry.email}`);
+
       const created = await storage.createInquiry(inquiry);
+      log(`Successfully created inquiry for ${created.email}`);
+
       res.json(created);
     } catch (err) {
       if (err instanceof ZodError) {
-        res.status(400).json({ message: err.errors[0].message });
+        const errorMessage = err.errors[0].message;
+        log(`Validation error in inquiry submission: ${errorMessage}`);
+        res.status(400).json({ message: errorMessage });
       } else {
+        log(`Error creating inquiry: ${err}`);
         res.status(500).json({ message: "Internal server error" });
       }
     }

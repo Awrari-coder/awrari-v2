@@ -14,7 +14,7 @@ export const inquiries = pgTable("inquiries", {
   email: varchar("email", { length: 255 }).notNull(),
   company: varchar("company", { length: 100 }),
   message: text("message").notNull(),
-  service: varchar("service", { length: 100 }).notNull()
+  service: varchar("service", { length: 100 })
 });
 
 export const insertUserSchema = createInsertSchema(users);
@@ -25,8 +25,12 @@ export const insertInquirySchema = createInsertSchema(inquiries).pick({
   message: true,
   service: true
 }).extend({
-  email: z.string().email(),
-  message: z.string().min(10)
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  message: z.string().min(10, "Message must be at least 10 characters"),
+  service: z.enum(["digital-marketing", "branding-design", "web-ai-solutions"], {
+    errorMap: () => ({ message: "Please select a service" })
+  })
 });
 
 export type InsertUser = z.infer<typeof insertUserSchema>;

@@ -24,6 +24,22 @@ import {
 } from "@/components/ui/select";
 import { Loader2 } from "lucide-react";
 
+// Service options matching our services section
+const SERVICE_OPTIONS = [
+  {
+    value: "digital-marketing",
+    label: "Digital Marketing & Growth",
+  },
+  {
+    value: "branding-design",
+    label: "Branding & Creative Design",
+  },
+  {
+    value: "web-ai-solutions",
+    label: "Web & AI-Powered Solutions",
+  },
+];
+
 export default function ContactSection() {
   const { toast } = useToast();
   const form = useForm<InsertInquiry>({
@@ -33,8 +49,8 @@ export default function ContactSection() {
       email: "",
       company: "",
       message: "",
-      service: ""
-    }
+      service: "",
+    },
   });
 
   const mutation = useMutation({
@@ -43,11 +59,11 @@ export default function ContactSection() {
         const response = await apiRequest("POST", "/api/inquiries", data);
         if (!response.ok) {
           const error = await response.json();
-          throw new Error(error.message || 'Failed to send message');
+          throw new Error(error.message || "Failed to send message");
         }
         return await response.json();
       } catch (error) {
-        throw error instanceof Error ? error : new Error('Failed to send message');
+        throw error instanceof Error ? error : new Error("Failed to send message");
       }
     },
     onSuccess: () => {
@@ -81,35 +97,37 @@ export default function ContactSection() {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit((data) => mutation.mutate(data))}
-              className="space-y-6"
+              className="space-y-6 bg-white p-8 rounded-lg shadow-sm"
             >
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="John Doe" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="grid md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="John Doe" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="john@example.com" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input placeholder="john@example.com" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
               <FormField
                 control={form.control}
@@ -119,7 +137,7 @@ export default function ContactSection() {
                     <FormLabel>Company (Optional)</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Your company"
+                        placeholder="Your company name"
                         {...field}
                         value={field.value || ""}
                       />
@@ -135,16 +153,18 @@ export default function ContactSection() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Service Interest</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Select a service" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="digital-transformation">Digital Transformation</SelectItem>
-                        <SelectItem value="business-analytics">Business Analytics</SelectItem>
-                        <SelectItem value="cloud-solutions">Cloud Solutions</SelectItem>
+                        {SERVICE_OPTIONS.map((option) => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -160,8 +180,8 @@ export default function ContactSection() {
                     <FormLabel>Message</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="Tell us about your project"
-                        className="min-h-[120px]"
+                        placeholder="Tell us about your project or requirements"
+                        className="min-h-[120px] resize-none"
                         {...field}
                       />
                     </FormControl>
@@ -173,10 +193,10 @@ export default function ContactSection() {
               <Button
                 type="submit"
                 className="w-full"
-                disabled={mutation.isLoading}
+                disabled={mutation.isPending}
               >
-                {mutation.isLoading ? (
-                  <span className="flex items-center gap-2">
+                {mutation.isPending ? (
+                  <span className="flex items-center justify-center gap-2">
                     <Loader2 className="h-4 w-4 animate-spin" />
                     Sending...
                   </span>
