@@ -12,29 +12,23 @@ import { Quote } from "lucide-react";
 
 const testimonials = [
   {
-    quote: "Awrari transformed our digital presence completely. Their strategic approach to marketing and web development helped us achieve a 150% increase in online leads.",
-    author: "Sarah Chen",
+    quote: "Awrari transformed our customer engagement strategy. Their innovative digital solutions helped us modernize our perks platform and increase user satisfaction by 85%.",
+    author: "Samuel Johnson",
+    role: "Marketing Director",
+    company: "Universal Perks",
+  },
+  {
+    quote: "The real estate market demands a strong digital presence, and Awrari delivered exactly that. Their web development and AI integration helped us streamline property listings and improve client interactions.",
+    author: "Mohammed Ahmed",
     role: "CEO",
-    company: "TechFront Solutions",
+    company: "Elshaia Real Estate",
   },
   {
-    quote: "The AI-powered solutions implemented by Awrari streamlined our customer service operations, reducing response times by 60% while maintaining high satisfaction rates.",
-    author: "Michael Rodriguez",
-    role: "Operations Director",
-    company: "Global Retail Corp",
-  },
-  {
-    quote: "Their branding expertise helped us stand out in a crowded market. The new visual identity they created perfectly captures our company's values and vision.",
-    author: "Emily Thompson",
-    role: "Marketing Manager",
-    company: "Innovate Labs",
-  },
-  {
-    quote: "Working with Awrari was a game-changer for our business. Their data-driven approach to digital marketing delivered measurable results within months.",
-    author: "David Park",
-    role: "Founder",
-    company: "StartUp Dynamics",
-  },
+    quote: "Our fashion brand needed a distinctive online identity, and Awrari exceeded our expectations. Their branding expertise and e-commerce solutions boosted our online sales significantly.",
+    author: "Sarah Williams",
+    role: "Creative Director",
+    company: "Toggle and Wear Fashion Design",
+  }
 ];
 
 export default function TestimonialsSection() {
@@ -47,9 +41,9 @@ export default function TestimonialsSection() {
           animate="animate"
           variants={fadeIn}
         >
-          <h2 className="text-3xl font-bold mb-4">What Our Clients Say</h2>
+          <h2 className="text-3xl font-bold mb-4">Client Success Stories</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Discover how we've helped businesses like yours achieve their digital goals and transform their online presence.
+            See how we've helped leading businesses transform their digital presence and achieve remarkable growth.
           </p>
         </motion.div>
 
@@ -70,7 +64,7 @@ export default function TestimonialsSection() {
               {testimonials.map((testimonial, index) => (
                 <CarouselItem key={index} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
                   <motion.div variants={fadeIn}>
-                    <Card className="h-full">
+                    <Card className="h-full hover:shadow-lg transition-shadow">
                       <CardContent className="p-6">
                         <Quote className="h-8 w-8 text-primary/20 mb-4" />
                         <p className="text-gray-600 mb-6 italic">
@@ -81,7 +75,7 @@ export default function TestimonialsSection() {
                           <p className="text-sm text-gray-500">
                             {testimonial.role}
                           </p>
-                          <p className="text-sm text-primary">
+                          <p className="text-sm text-primary font-medium">
                             {testimonial.company}
                           </p>
                         </div>
