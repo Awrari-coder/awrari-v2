@@ -11,13 +11,12 @@ export default function Services() {
   const services = [
     {
       title: "Digital Marketing & Growth",
-      description: "Elevate your brand visibility and drive engagement through data-driven digital marketing strategies.",
+      description: "Data-driven strategies to elevate your brand visibility and engagement.",
       features: [
         "SEO & Analytics",
         "Social Media Marketing",
         "Content Strategy",
-        "Email Campaigns",
-        "Performance Tracking"
+        "Email Campaigns"
       ],
       cta: "Start Growing",
       bgPattern: (
@@ -27,14 +26,13 @@ export default function Services() {
       )
     },
     {
-      title: "Branding & Creative Design",
-      description: "Create a memorable brand identity that resonates with your audience and sets you apart.",
+      title: "Branding & Design",
+      description: "Create a memorable brand identity that resonates with your audience.",
       features: [
         "Brand Strategy",
         "Visual Identity",
         "Custom Graphics",
-        "Marketing Materials",
-        "Brand Guidelines"
+        "Marketing Materials"
       ],
       cta: "Build Your Brand",
       bgPattern: (
@@ -45,13 +43,12 @@ export default function Services() {
     },
     {
       title: "Web & AI Solutions",
-      description: "Build powerful digital platforms with cutting-edge technology and AI integration.",
+      description: "Build powerful platforms with cutting-edge technology.",
       features: [
         "Custom Development",
         "AI Integration",
         "E-Commerce",
-        "Cloud Solutions",
-        "Performance Optimization"
+        "Cloud Solutions"
       ],
       cta: "Get Started",
       bgPattern: (
@@ -69,60 +66,61 @@ export default function Services() {
   return (
     <div className="pt-16 min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <motion.div
-        className="container mx-auto px-4 py-20"
+        className="container mx-auto px-4 py-16"
         variants={stagger}
         initial="hidden"
         animate="visible"
       >
-        <motion.div variants={slideUp} className="max-w-3xl mx-auto text-center mb-16">
-          <h1 className="text-4xl font-bold mb-6">
+        <motion.div variants={slideUp} className="text-center mb-12">
+          <h1 className="text-4xl font-bold mb-4">
             Our Services
           </h1>
           <p className="text-xl text-gray-600">
-            Comprehensive digital solutions to elevate your business
+            Comprehensive solutions to elevate your business
           </p>
         </motion.div>
 
-        <div className="space-y-16">
+        <motion.div 
+          variants={stagger} 
+          className="grid md:grid-cols-3 gap-6"
+        >
           {services.map((service, index) => (
             <motion.div
               key={index}
               variants={fadeIn}
-              className="grid md:grid-cols-2 gap-8 items-center"
             >
-              <div className={`space-y-6 ${index % 2 === 1 ? 'md:order-2' : ''}`}>
-                <h2 className="text-3xl font-bold">{service.title}</h2>
-                <p className="text-gray-600 text-lg">{service.description}</p>
-
-                <ul className="space-y-3">
-                  {service.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-center gap-2">
-                      <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                      <span className="text-gray-600">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <Button
-                  size="lg"
-                  onClick={() => handleContactClick(service.title)}
-                  className="mt-6"
-                >
-                  {service.cta}
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </div>
-
-              <Card className={`h-full relative overflow-hidden ${index % 2 === 1 ? 'md:order-1' : ''}`}>
-                <CardContent className="relative p-0 h-[300px] flex items-center justify-center bg-gradient-to-br from-gray-50 to-white">
-                  <div className="absolute inset-0 w-full h-full opacity-75">
-                    {service.bgPattern}
+              <Card className="h-full hover:shadow-lg transition-shadow">
+                <CardContent className="p-6 space-y-4">
+                  <div className="h-32 relative -mt-2 mb-4">
+                    <div className="absolute inset-0 opacity-75">
+                      {service.bgPattern}
+                    </div>
                   </div>
+
+                  <h2 className="text-2xl font-bold">{service.title}</h2>
+                  <p className="text-gray-600">{service.description}</p>
+
+                  <ul className="space-y-2">
+                    {service.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-center gap-2">
+                        <Check className="w-4 h-4 text-primary flex-shrink-0" />
+                        <span className="text-gray-600 text-sm">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <Button
+                    className="w-full mt-4"
+                    onClick={() => handleContactClick(service.title)}
+                  >
+                    {service.cta}
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
                 </CardContent>
               </Card>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </motion.div>
     </div>
   );
