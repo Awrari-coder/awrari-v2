@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { MonitorSmartphone, BarChart3, Database, ArrowRight } from "lucide-react";
 import { fadeIn } from "@/lib/animations";
 import { Button } from "@/components/ui/button";
+import { useLocation } from "wouter";
 
 const services = [
   {
@@ -16,7 +17,8 @@ const services = [
       "Email Marketing Campaigns",
       "Content Strategy & AI-Powered Blogging"
     ],
-    cta: "Optimize My Digital Presence"
+    cta: "Optimize My Digital Presence",
+    href: "#contact"
   },
   {
     icon: BarChart3,
@@ -28,7 +30,8 @@ const services = [
       "Professional Presentation Design",
       "Video Marketing & Production"
     ],
-    cta: "Create My Brand Identity"
+    cta: "Create My Brand Identity",
+    href: "#contact"
   },
   {
     icon: Database,
@@ -41,11 +44,25 @@ const services = [
       "Digital Presence Optimization",
       "Smart Business Automation"
     ],
-    cta: "Build My Website"
+    cta: "Build My Website",
+    href: "#contact"
   }
 ];
 
 export default function ServicesSection() {
+  const [, setLocation] = useLocation();
+
+  const handleServiceClick = (href: string, service: string) => {
+    // Smooth scroll to contact section
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+    // Pre-select the service in the contact form
+    // You can implement this later by passing the service as a URL parameter
+    setLocation(`${href}?service=${encodeURIComponent(service)}`);
+  };
+
   return (
     <section id="services" className="py-20 bg-white">
       <div className="container mx-auto px-4">
@@ -90,7 +107,10 @@ export default function ServicesSection() {
                       </li>
                     ))}
                   </ul>
-                  <Button className="w-full mt-auto">
+                  <Button 
+                    className="w-full mt-auto"
+                    onClick={() => handleServiceClick(service.href, service.title)}
+                  >
                     <span className="mx-auto flex items-center gap-2">
                       {service.cta}
                       <ArrowRight className="h-4 w-4" />
