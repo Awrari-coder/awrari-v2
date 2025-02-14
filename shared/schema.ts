@@ -2,6 +2,12 @@ import { pgTable, text, serial, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  username: varchar("username", { length: 100 }).notNull().unique(),
+  password: varchar("password", { length: 255 }).notNull(),
+});
+
 export const inquiries = pgTable("inquiries", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 100 }).notNull(),
@@ -11,6 +17,7 @@ export const inquiries = pgTable("inquiries", {
   service: varchar("service", { length: 100 }).notNull()
 });
 
+export const insertUserSchema = createInsertSchema(users);
 export const insertInquirySchema = createInsertSchema(inquiries).pick({
   name: true,
   email: true,
@@ -22,5 +29,7 @@ export const insertInquirySchema = createInsertSchema(inquiries).pick({
   message: z.string().min(10)
 });
 
+export type InsertUser = z.infer<typeof insertUserSchema>;
+export type User = typeof users.$inferSelect;
 export type InsertInquiry = z.infer<typeof insertInquirySchema>;
 export type Inquiry = typeof inquiries.$inferSelect;

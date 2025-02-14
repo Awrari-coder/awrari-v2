@@ -3,9 +3,18 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertInquirySchema } from "@shared/schema";
 import { ZodError } from "zod";
+import { setupAuth } from "./auth";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  app.get("/api/inquiries", async (_req, res) => {
+  // Set up authentication
+  setupAuth(app);
+
+  // Protected route - only accessible to authenticated users
+  app.get("/api/inquiries", async (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
     try {
       const inquiries = await storage.getInquiries();
       res.json(inquiries);
@@ -14,6 +23,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Public route - accessible to everyone
   app.post("/api/inquiries", async (req, res) => {
     try {
       const inquiry = insertInquirySchema.parse(req.body);
