@@ -19,9 +19,9 @@ const testimonials = [
   },
   {
     quote: "The real estate market demands a strong digital presence, and Awrari delivered exactly that. Their web development and AI integration helped us streamline property listings and improve client interactions.",
-    author: "Mohammed Ahmed",
+    author: "Samuel Sholib",
     role: "CEO",
-    company: "Elshaia Real Estate",
+    company: "Elshadia Realestate Group",
   },
   {
     quote: "Our fashion brand needed a distinctive online identity, and Awrari exceeded our expectations. Their branding expertise and e-commerce solutions boosted our online sales significantly.",
