@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { fadeIn, slideUp, stagger } from "@/lib/animations";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check, ArrowRight } from "lucide-react";
+import { Check, ArrowRight, BarChart3, Palette, Code } from "lucide-react";
 import { useLocation } from "wouter";
 
 export default function Services() {
@@ -19,6 +19,7 @@ export default function Services() {
         "Email Campaigns"
       ],
       cta: "Start Growing",
+      icon: BarChart3,
       bgPattern: (
         <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
           <circle cx="50" cy="50" r="45" className="fill-primary/10" />
@@ -35,6 +36,7 @@ export default function Services() {
         "Marketing Materials"
       ],
       cta: "Build Your Brand",
+      icon: Palette,
       bgPattern: (
         <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
           <rect x="10" y="10" width="80" height="80" className="fill-primary/10" transform="rotate(45 50 50)" />
@@ -51,6 +53,7 @@ export default function Services() {
         "Cloud Solutions"
       ],
       cta: "Get Started",
+      icon: Code,
       bgPattern: (
         <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
           <polygon points="50,5 95,30 95,70 50,95 5,70 5,30" className="fill-primary/10" />
@@ -94,6 +97,9 @@ export default function Services() {
                   <div className="h-32 relative -mt-2 mb-4">
                     <div className="absolute inset-0 opacity-75">
                       {service.bgPattern}
+                    </div>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <service.icon className="w-16 h-16 text-primary/80" />
                     </div>
                   </div>
 
