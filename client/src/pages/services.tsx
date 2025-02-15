@@ -85,16 +85,22 @@ export default function Services() {
                 <CardContent className="p-6 space-y-4">
                   <div className="h-32 relative -mt-2 mb-4 group flex items-center justify-center overflow-hidden">
                     <motion.div
-                      whileHover={{
-                        scale: 1.1,
+                      animate={{
+                        scale: [1, 1.1, 1],
                         rotate: [0, 5, -5, 0],
                         y: [0, -5, 5, 0],
-                        transition: {
-                          duration: 2,
-                          repeat: Infinity,
-                          repeatType: "reverse",
-                          ease: "easeInOut"
-                        }
+                      }}
+                      transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        repeatType: "loop",
+                        ease: "easeInOut"
+                      }}
+                      whileHover={{ 
+                        scale: 1.1,  
+                        rotate: 0,   
+                        y: 0,        
+                        transition: { duration: 0.2 } 
                       }}
                       className="relative"
                     >
