@@ -14,7 +14,10 @@ const VERIFIED_EMAIL = 'dagidessalegn@businessawrari.com';
 export function sendInquiryNotification(inquiry: InsertInquiry): Promise<boolean> {
   const msg = {
     to: VERIFIED_EMAIL,
-    from: VERIFIED_EMAIL,
+    from: {
+      email: VERIFIED_EMAIL,
+      name: 'Awrari Business Solutions'
+    },
     subject: 'New Contact Form Submission - Awrari Business Solutions',
     text: `
 New inquiry from ${inquiry.name}
@@ -36,10 +39,20 @@ ${inquiry.message}
     `
   };
 
+  console.log('Attempting to send email notification with config:', {
+    to: VERIFIED_EMAIL,
+    from: msg.from,
+    subject: msg.subject
+  });
+
   return sgMail
     .send(msg)
-    .then(() => {
-      console.log('Email sent successfully to', VERIFIED_EMAIL);
+    .then((response) => {
+      const [firstResponse] = response;
+      console.log('SendGrid API Response:', {
+        statusCode: firstResponse?.statusCode,
+        headers: firstResponse?.headers
+      });
       return true;
     })
     .catch((error) => {
@@ -48,6 +61,14 @@ ${inquiry.message}
         code: error.code,
         response: error.response?.body
       });
+
+      // Log specific SendGrid error codes for debugging
+      if (error.code === 401) {
+        console.error('SendGrid authentication failed - check API key');
+      } else if (error.code === 403) {
+        console.error('SendGrid authorization failed - sender email may not be verified');
+      }
+
       return false;
     });
 }
