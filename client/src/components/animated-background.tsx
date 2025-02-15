@@ -57,8 +57,8 @@ const elements = [
     initialY: 100 + Math.random() * 50, // Start below viewport
     x: 10 + Math.random() * 80,
     scale: 0.6 + Math.random() * 0.4,
-    duration: 1.5 + Math.random() * 2, // 10x faster duration
-    delay: Math.random() * -2 // 10x faster delay
+    duration: 4 + Math.random() * 2, // Animation duration between 4-6 seconds
+    delay: Math.random() * -4 // Negative delay for continuous flow
   })),
   ...Array.from({ length: 10 }, (_, i) => ({
     type: 'shape',
@@ -66,8 +66,8 @@ const elements = [
     initialY: 100 + Math.random() * 50, // Start below viewport
     x: 10 + Math.random() * 80,
     scale: 0.4 + Math.random() * 0.3,
-    duration: 1.2 + Math.random() * 1.8, // 10x faster duration
-    delay: Math.random() * -2 // 10x faster delay
+    duration: 3 + Math.random() * 2, // Animation duration between 3-5 seconds
+    delay: Math.random() * -4 // Negative delay for continuous flow
   }))
 ];
 
