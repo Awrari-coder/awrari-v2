@@ -57,8 +57,8 @@ const elements = [
     initialY: 100 + Math.random() * 50, // Start below viewport
     x: 10 + Math.random() * 80,
     scale: 0.6 + Math.random() * 0.4,
-    duration: 15 + Math.random() * 20,
-    delay: Math.random() * -20
+    duration: 1.5 + Math.random() * 2, // 10x faster duration
+    delay: Math.random() * -2 // 10x faster delay
   })),
   ...Array.from({ length: 10 }, (_, i) => ({
     type: 'shape',
@@ -66,8 +66,8 @@ const elements = [
     initialY: 100 + Math.random() * 50, // Start below viewport
     x: 10 + Math.random() * 80,
     scale: 0.4 + Math.random() * 0.3,
-    duration: 12 + Math.random() * 18,
-    delay: Math.random() * -20
+    duration: 1.2 + Math.random() * 1.8, // 10x faster duration
+    delay: Math.random() * -2 // 10x faster delay
   }))
 ];
 
