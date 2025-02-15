@@ -8,7 +8,8 @@ if (!process.env.SENDGRID_API_KEY) {
 const mailService = new MailService();
 mailService.setApiKey(process.env.SENDGRID_API_KEY);
 
-const SENDER_EMAIL = 'noreply@awraribusinesssolution.replit.app';
+// Use a generic noreply address for sending
+const SENDER_EMAIL = 'noreply@businessawrari.com';
 const NOTIFICATION_EMAIL = 'dagidessalegn@businessawrari.com';
 
 export async function sendInquiryNotification(inquiry: InsertInquiry) {
@@ -20,7 +21,10 @@ export async function sendInquiryNotification(inquiry: InsertInquiry) {
 
   const emailContent = {
     to: NOTIFICATION_EMAIL,
-    from: SENDER_EMAIL,
+    from: {
+      email: SENDER_EMAIL,
+      name: 'Awrari Business Solutions'
+    },
     subject: 'New Contact Form Submission - Awrari Business Solutions',
     text: `
 New Contact Form Submission
