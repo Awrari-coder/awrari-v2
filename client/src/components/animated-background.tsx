@@ -16,6 +16,7 @@ import {
   SiTrello,
   SiHubspot
 } from "react-icons/si";
+import type { IconType } from 'react-icons';
 
 const icons = [
   SiGoogleanalytics,
@@ -49,23 +50,38 @@ const shapes = [
   <polygon points="10,2 18,7 18,15 10,20 2,15 2,7" className="fill-current" />
 ];
 
+type AnimatedElement = {
+  type: 'icon' | 'shape';
+  Icon?: IconType;
+  shape?: JSX.Element;
+  x: number;
+  y: number;
+  scale: number;
+  rotate: number;
+  delay: number;
+};
+
 // Create a mix of icons and shapes with strategic positioning
-const elements = [
+const elements: AnimatedElement[] = [
+  // Icons spread across the hero section
   ...Array.from({ length: 15 }, (_, i) => ({
     type: 'icon',
     Icon: icons[i % icons.length],
-    x: 15 + (i % 5) * 20, // Evenly space horizontally
-    y: 20 + Math.floor(i / 5) * 25, // Evenly space vertically
-    scale: 0.7 + Math.random() * 0.3,
-    rotate: Math.random() * 20 - 10 // Slight random rotation
+    x: Math.random() * 80 + 10, // Random position between 10% and 90% of width
+    y: Math.random() * 60 + 20, // Random position between 20% and 80% of height
+    scale: 0.6 + Math.random() * 0.3, // Random scale between 0.6 and 0.9
+    rotate: Math.random() * 360, // Random rotation
+    delay: i * 0.2 // Staggered delay for each element
   })),
+  // Shapes spread across the hero section
   ...Array.from({ length: 10 }, (_, i) => ({
     type: 'shape',
     shape: shapes[i % shapes.length],
-    x: 10 + (i % 3) * 30, // Different spacing for shapes
-    y: 30 + Math.floor(i / 3) * 20,
-    scale: 0.5 + Math.random() * 0.2,
-    rotate: Math.random() * 30 - 15
+    x: Math.random() * 80 + 10,
+    y: Math.random() * 60 + 20,
+    scale: 0.4 + Math.random() * 0.2,
+    rotate: Math.random() * 360,
+    delay: (i + 15) * 0.2 // Continue the staggered delay after icons
   }))
 ];
 
@@ -76,38 +92,56 @@ export default function AnimatedBackground() {
         <motion.div
           key={index}
           className="absolute text-primary"
-          style={{
-            left: `${item.x}%`,
-            top: `${item.y}%`,
+          initial={{ 
+            opacity: 0,
+            x: item.x + '%',
+            y: item.y + '%',
+            scale: 0,
+            rotate: item.rotate - 20
           }}
           animate={{
-            y: [0, -8, 0],
-            x: [0, 5, 0],
-            rotate: [item.rotate, item.rotate + 5, item.rotate],
-            scale: [
-              item.scale,
-              item.scale * 1.1,
-              item.scale
+            opacity: [0, 1, 1, 1, 0],
+            y: [
+              item.y + '%',
+              item.y - 2 + '%',
+              item.y + 2 + '%',
+              item.y - 1 + '%',
+              item.y - 5 + '%'
             ],
+            x: [
+              item.x + '%',
+              item.x + 2 + '%',
+              item.x - 2 + '%',
+              item.x + 1 + '%',
+              item.x + '%'
+            ],
+            rotate: [
+              item.rotate - 20,
+              item.rotate,
+              item.rotate + 10,
+              item.rotate - 10,
+              item.rotate
+            ],
+            scale: [0, item.scale, item.scale * 1.1, item.scale, 0],
           }}
           transition={{
-            duration: 4,
+            duration: 20,
+            delay: item.delay,
             repeat: Infinity,
-            repeatType: "reverse",
+            repeatDelay: Math.random() * 10, // Random delay between repetitions
             ease: "easeInOut",
-            times: [0, 0.5, 1],
           }}
         >
-          {item.type === 'icon' ? (
+          {item.type === 'icon' && item.Icon ? (
             <item.Icon 
               className={`w-12 h-12 md:w-16 md:h-16 text-primary 
-                ${index % 2 === 0 ? 'opacity-[0.12]' : 'opacity-[0.08]'}`}
+                ${index % 2 === 0 ? 'opacity-[0.08]' : 'opacity-[0.06]'}`}
             />
           ) : (
             <svg 
               viewBox="0 0 20 20" 
               className={`w-8 h-8 md:w-12 md:h-12 text-primary
-                ${index % 2 === 0 ? 'opacity-[0.10]' : 'opacity-[0.08]'}`}
+                ${index % 2 === 0 ? 'opacity-[0.07]' : 'opacity-[0.05]'}`}
             >
               {item.shape}
             </svg>

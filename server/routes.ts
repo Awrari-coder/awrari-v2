@@ -5,6 +5,7 @@ import { insertInquirySchema } from "@shared/schema";
 import { ZodError } from "zod";
 import { setupAuth } from "./auth";
 import { log } from "./vite";
+import { sendInquiryNotification } from "./email";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Set up authentication
@@ -35,6 +36,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const created = await storage.createInquiry(inquiry);
       log(`Successfully created inquiry for ${created.email}`);
+
+      // Send email notification
+      const emailSent = await sendInquiryNotification(inquiry);
+      if (!emailSent) {
+        log('Failed to send email notification');
+        // Don't return error to client, as the inquiry was still saved
+      }
 
       res.json(created);
     } catch (err) {
