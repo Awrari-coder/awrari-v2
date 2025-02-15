@@ -24,12 +24,19 @@ export default function NavHeader() {
   };
 
   const handleNavClick = (href: string, isScroll?: boolean) => {
+    setIsOpen(false); // Close mobile menu first
+
     if (isScroll && href.startsWith('#')) {
       const sectionId = href.replace('#', '');
       const element = document.getElementById(sectionId);
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        setIsOpen(false); // Close mobile menu if open
+        // Adding a small delay to ensure the mobile menu is closed
+        setTimeout(() => {
+          element.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start'
+          });
+        }, 100);
       }
     }
   };
