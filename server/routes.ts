@@ -8,10 +8,8 @@ import { log } from "./vite";
 import { sendInquiryNotification } from "./email";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Set up authentication
   setupAuth(app);
 
-  // Protected route - only accessible to authenticated users
   app.get("/api/inquiries", async (req, res) => {
     if (!req.isAuthenticated()) {
       return res.status(401).json({ message: "Unauthorized" });
@@ -26,38 +24,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Public route - accessible to everyone
   app.post("/api/inquiries", async (req, res) => {
-    log(`Received inquiry submission: ${JSON.stringify(req.body)}`);
-
     try {
+      log("=== Starting new inquiry submission ===");
+      log(`Request body: ${JSON.stringify(req.body, null, 2)}`);
+
       const inquiry = insertInquirySchema.parse(req.body);
-      log(`Validation passed for inquiry from ${inquiry.email}`);
+      log(`Validation passed, processing inquiry from: ${inquiry.email}`);
 
       const created = await storage.createInquiry(inquiry);
-      log(`Successfully created inquiry for ${created.email}`);
+      log(`Successfully stored inquiry in database, ID: ${created.id}`);
 
-      // Send email notification
-      log('Attempting to send email notification...');
-      const emailSent = await sendInquiryNotification(inquiry);
-      if (!emailSent) {
-        log('Failed to send email notification');
-        // Send a warning to the client but don't treat it as an error
-        return res.status(200).json({
-          ...created,
-          warning: "Your message was saved but there was an issue sending the email notification"
+      try {
+        log('Initiating email notification process...');
+        const emailSent = await sendInquiryNotification(inquiry);
+
+        if (!emailSent) {
+          log('Email notification failed - but inquiry was saved');
+          return res.status(207).json({
+            data: created,
+            message: "Your message was saved but we couldn't send the email notification"
+          });
+        }
+
+        log('Email notification sent successfully');
+        res.json({
+          data: created,
+          message: "Your message was received and notification sent successfully"
+        });
+      } catch (emailError) {
+        log(`Email sending error: ${emailError}`);
+        res.status(207).json({
+          data: created,
+          message: "Your message was saved but there was an issue with the email notification"
         });
       }
-
-      log('Email notification sent successfully');
-      res.json(created);
     } catch (err) {
       if (err instanceof ZodError) {
         const errorMessage = err.errors[0].message;
-        log(`Validation error in inquiry submission: ${errorMessage}`);
+        log(`Validation error: ${errorMessage}`);
         res.status(400).json({ message: errorMessage });
       } else {
-        log(`Error creating inquiry: ${err}`);
+        log(`Unexpected error: ${err}`);
         res.status(500).json({ message: "Internal server error" });
       }
     }
