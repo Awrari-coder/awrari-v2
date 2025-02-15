@@ -7,10 +7,10 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Blog from "@/pages/blog";
 import Services from "@/pages/services";
+import Contact from "@/pages/contact";
 import Admin from "@/pages/admin";
 import Auth from "@/pages/auth";
 import NavHeader from "@/components/nav-header";
-import { ProtectedRoute } from "./lib/protected-route";
 
 function Router() {
   return (
@@ -18,8 +18,9 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/services" component={Services} />
       <Route path="/blog" component={Blog} />
+      <Route path="/contact" component={Contact} />
       <Route path="/auth" component={Auth} />
-      <ProtectedRoute path="/admin" component={Admin} />
+      <Route path="/admin" component={Admin} />
       <Route component={NotFound} />
     </Switch>
   );

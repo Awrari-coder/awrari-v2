@@ -10,10 +10,10 @@ export default function NavHeader() {
   const [location] = useLocation();
 
   const links = [
-    { href: "/", label: "Home", isScroll: false },
-    { href: "#services", label: "Services", isScroll: true },
-    { href: "/blog", label: "Blog", isScroll: false },
-    { href: "#contact", label: "Contact", isScroll: true },
+    { href: "/", label: "Home" },
+    { href: "/services", label: "Services" },
+    { href: "/blog", label: "Blog" },
+    { href: "/contact", label: "Contact" }
   ];
 
   const isActiveLink = (href: string) => {
@@ -21,24 +21,6 @@ export default function NavHeader() {
       return location === href;
     }
     return location.startsWith(href);
-  };
-
-  const handleNavClick = (href: string, isScroll?: boolean) => {
-    setIsOpen(false); // Close mobile menu first
-
-    if (isScroll && href.startsWith('#')) {
-      const sectionId = href.replace('#', '');
-      const element = document.getElementById(sectionId);
-      if (element) {
-        // Adding a small delay to ensure the mobile menu is closed
-        setTimeout(() => {
-          element.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'start'
-          });
-        }, 100);
-      }
-    }
   };
 
   return (
@@ -53,14 +35,8 @@ export default function NavHeader() {
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-8">
           {links.map((link) => (
-            link.isScroll ? (
+            <Link key={link.href} href={link.href}>
               <a
-                key={link.href}
-                href={link.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNavClick(link.href, true);
-                }}
                 className={`text-sm font-medium transition-colors cursor-pointer ${
                   isActiveLink(link.href)
                     ? "text-primary"
@@ -69,26 +45,13 @@ export default function NavHeader() {
               >
                 {link.label}
               </a>
-            ) : (
-              <Link key={link.href} href={link.href}>
-                <a
-                  className={`text-sm font-medium transition-colors cursor-pointer ${
-                    isActiveLink(link.href)
-                      ? "text-primary"
-                      : "text-gray-600 hover:text-primary"
-                  }`}
-                >
-                  {link.label}
-                </a>
-              </Link>
-            )
+            </Link>
           ))}
-          <Button
-            onClick={() => handleNavClick('#contact', true)}
-            className="cursor-pointer"
-          >
-            Get Consultation
-          </Button>
+          <Link href="/contact">
+            <Button as="a" className="cursor-pointer">
+              Get Consultation
+            </Button>
+          </Link>
         </div>
 
         {/* Mobile Navigation Toggle */}
@@ -113,45 +76,28 @@ export default function NavHeader() {
           >
             <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
               {links.map((link) => (
-                link.isScroll ? (
+                <Link key={link.href} href={link.href}>
                   <a
-                    key={link.href}
-                    href={link.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleNavClick(link.href, true);
-                    }}
                     className={`text-sm font-medium p-2 rounded-md transition-colors ${
                       isActiveLink(link.href)
                         ? "text-primary bg-primary/5"
                         : "text-gray-600 hover:text-primary hover:bg-gray-50"
                     }`}
+                    onClick={() => setIsOpen(false)}
                   >
                     {link.label}
                   </a>
-                ) : (
-                  <Link key={link.href} href={link.href}>
-                    <a
-                      className={`text-sm font-medium p-2 rounded-md transition-colors ${
-                        isActiveLink(link.href)
-                          ? "text-primary bg-primary/5"
-                          : "text-gray-600 hover:text-primary hover:bg-gray-50"
-                      }`}
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {link.label}
-                    </a>
-                  </Link>
-                )
+                </Link>
               ))}
-              <Button 
-                className="w-full cursor-pointer" 
-                onClick={() => {
-                  handleNavClick('#contact', true);
-                }}
-              >
-                Get Consultation
-              </Button>
+              <Link href="/contact">
+                <Button 
+                  as="a"
+                  className="w-full cursor-pointer" 
+                  onClick={() => setIsOpen(false)}
+                >
+                  Get Consultation
+                </Button>
+              </Link>
             </div>
           </motion.div>
         )}
