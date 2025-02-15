@@ -83,8 +83,32 @@ export default function Services() {
             >
               <Card className="h-full hover:shadow-lg transition-shadow">
                 <CardContent className="p-6 space-y-4">
-                  <div className="h-32 relative -mt-2 mb-4 group flex items-center justify-center">
-                    <service.icon className={`w-16 h-16 ${service.color} transition-transform duration-300 group-hover:scale-110`} />
+                  <div className="h-32 relative -mt-2 mb-4 group flex items-center justify-center overflow-hidden">
+                    <motion.div
+                      whileHover={{
+                        scale: 1.1,
+                        rotate: [0, 5, -5, 0],
+                        y: [0, -5, 5, 0],
+                        transition: {
+                          duration: 2,
+                          repeat: Infinity,
+                          repeatType: "reverse",
+                          ease: "easeInOut"
+                        }
+                      }}
+                      className="relative"
+                    >
+                      <service.icon className={`w-16 h-16 ${service.color}`} />
+                      <motion.div
+                        className="absolute inset-0 bg-primary/5 rounded-full -z-10"
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        whileHover={{
+                          scale: 1.5,
+                          opacity: 0.5,
+                          transition: { duration: 0.3 }
+                        }}
+                      />
+                    </motion.div>
                   </div>
 
                   <h2 className="text-2xl font-bold">{service.title}</h2>
