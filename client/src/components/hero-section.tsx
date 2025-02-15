@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { fadeIn, slideUp } from "@/lib/animations";
+import AnimatedBackground from "./animated-background";
 
 export default function HeroSection() {
   return (
-    <section className="min-h-screen pt-16 flex items-center bg-gradient-to-br from-blue-50 to-white">
+    <section className="min-h-screen pt-16 flex items-center bg-gradient-to-br from-blue-50 to-white relative overflow-hidden">
+      <AnimatedBackground />
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center">
           <motion.h1
