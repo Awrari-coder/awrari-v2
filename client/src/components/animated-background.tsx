@@ -49,25 +49,23 @@ const shapes = [
   <polygon points="10,2 18,7 18,15 10,20 2,15 2,7" className="fill-current" />
 ];
 
-// Create a mix of icons and shapes with their starting positions
+// Create a mix of icons and shapes with strategic positioning
 const elements = [
   ...Array.from({ length: 15 }, (_, i) => ({
     type: 'icon',
     Icon: icons[i % icons.length],
-    initialY: 100 + Math.random() * 50, // Start below viewport
-    x: 10 + Math.random() * 80,
-    scale: 0.6 + Math.random() * 0.4,
-    duration: 4 + Math.random() * 2, // Animation duration between 4-6 seconds
-    delay: Math.random() * -4 // Negative delay for continuous flow
+    x: 15 + (i % 5) * 20, // Evenly space horizontally
+    y: 20 + Math.floor(i / 5) * 25, // Evenly space vertically
+    scale: 0.7 + Math.random() * 0.3,
+    rotate: Math.random() * 20 - 10 // Slight random rotation
   })),
   ...Array.from({ length: 10 }, (_, i) => ({
     type: 'shape',
     shape: shapes[i % shapes.length],
-    initialY: 100 + Math.random() * 50, // Start below viewport
-    x: 10 + Math.random() * 80,
-    scale: 0.4 + Math.random() * 0.3,
-    duration: 3 + Math.random() * 2, // Animation duration between 3-5 seconds
-    delay: Math.random() * -4 // Negative delay for continuous flow
+    x: 10 + (i % 3) * 30, // Different spacing for shapes
+    y: 30 + Math.floor(i / 3) * 20,
+    scale: 0.5 + Math.random() * 0.2,
+    rotate: Math.random() * 30 - 15
   }))
 ];
 
@@ -80,24 +78,24 @@ export default function AnimatedBackground() {
           className="absolute text-primary"
           style={{
             left: `${item.x}%`,
-            top: `${item.initialY}%`,
+            top: `${item.y}%`,
           }}
           animate={{
-            y: [0, `-${item.initialY + 20}%`], // Move up by more than 100% to ensure elements go off-screen
-            rotate: [0, item.type === 'shape' ? 180 : 0], // Rotate shapes but not icons
+            y: [0, -8, 0],
+            x: [0, 5, 0],
+            rotate: [item.rotate, item.rotate + 5, item.rotate],
             scale: [
               item.scale,
-              item.scale * (item.type === 'shape' ? 1.3 : 1.15),
+              item.scale * 1.1,
               item.scale
             ],
           }}
           transition={{
-            duration: item.duration,
+            duration: 4,
             repeat: Infinity,
-            repeatType: "loop",
-            ease: "linear",
-            delay: item.delay,
-            times: [0, 1], // Smooth upward motion
+            repeatType: "reverse",
+            ease: "easeInOut",
+            times: [0, 0.5, 1],
           }}
         >
           {item.type === 'icon' ? (
