@@ -9,7 +9,7 @@ const mailService = new MailService();
 mailService.setApiKey(process.env.SENDGRID_API_KEY);
 
 const SENDER_EMAIL = 'noreply@awraribusinesssolution.replit.app';
-const NOTIFICATION_EMAIL = 'dagidessalegn9@gmail.com';
+const NOTIFICATION_EMAIL = 'dagidessalegn@businessawrari.com';
 
 export async function sendInquiryNotification(inquiry: InsertInquiry) {
   const emailContent = {
