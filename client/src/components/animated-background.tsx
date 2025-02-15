@@ -102,14 +102,14 @@ export default function AnimatedBackground() {
         >
           {item.type === 'icon' ? (
             <item.Icon 
-              className={`w-12 h-12 md:w-16 md:h-16 opacity-10 
+              className={`w-12 h-12 md:w-16 md:h-16 text-primary 
                 ${index % 2 === 0 ? 'opacity-[0.12]' : 'opacity-[0.08]'}`}
             />
           ) : (
             <svg 
               viewBox="0 0 20 20" 
-              className={`w-8 h-8 md:w-12 md:h-12 
-                ${index % 2 === 0 ? 'opacity-[0.08]' : 'opacity-[0.06]'}`}
+              className={`w-8 h-8 md:w-12 md:h-12 text-primary
+                ${index % 2 === 0 ? 'opacity-[0.10]' : 'opacity-[0.08]'}`}
             >
               {item.shape}
             </svg>
