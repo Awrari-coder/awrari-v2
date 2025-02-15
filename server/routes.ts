@@ -35,30 +35,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const created = await storage.createInquiry(inquiry);
       log(`Successfully stored inquiry in database, ID: ${created.id}`);
 
-      try {
-        log('Initiating email notification process...');
-        const emailSent = await sendInquiryNotification(inquiry);
-
-        if (!emailSent) {
-          log('Email notification failed - but inquiry was saved');
-          return res.status(207).json({
+      sendInquiryNotification(inquiry)
+        .then((sent) => {
+          if (sent) {
+            log('Email notification sent successfully');
+            res.json({
+              data: created,
+              message: "Your message was received and notification sent successfully"
+            });
+          } else {
+            log('Email notification failed - but inquiry was saved');
+            res.status(207).json({
+              data: created,
+              message: "Your message was saved but we couldn't send the email notification"
+            });
+          }
+        })
+        .catch((error) => {
+          log(`Email error: ${error}`);
+          res.status(207).json({
             data: created,
-            message: "Your message was saved but we couldn't send the email notification"
+            message: "Your message was saved but there was an issue with the email notification"
           });
-        }
+        });
 
-        log('Email notification sent successfully');
-        res.json({
-          data: created,
-          message: "Your message was received and notification sent successfully"
-        });
-      } catch (emailError) {
-        log(`Email sending error: ${emailError}`);
-        res.status(207).json({
-          data: created,
-          message: "Your message was saved but there was an issue with the email notification"
-        });
-      }
     } catch (err) {
       if (err instanceof ZodError) {
         const errorMessage = err.errors[0].message;
