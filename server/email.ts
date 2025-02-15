@@ -13,10 +13,18 @@ const SENDER_EMAIL = 'noreply@businessawrari.com';
 const NOTIFICATION_EMAIL = 'dagidessalegn@businessawrari.com';
 
 export async function sendInquiryNotification(inquiry: InsertInquiry) {
-  console.log('Attempting to send email notification for inquiry:', {
-    name: inquiry.name,
-    email: inquiry.email,
-    service: inquiry.service
+  console.log('Starting email notification process...');
+  console.log('SendGrid API Key status:', process.env.SENDGRID_API_KEY ? 'Present' : 'Missing');
+
+  console.log('Preparing email for:', {
+    to: NOTIFICATION_EMAIL,
+    from: SENDER_EMAIL,
+    subject: 'New Contact Form Submission',
+    inquiryDetails: {
+      name: inquiry.name,
+      email: inquiry.email,
+      service: inquiry.service
+    }
   });
 
   const emailContent = {
@@ -63,18 +71,21 @@ Sent from Awrari Business Solutions Contact Form
   };
 
   try {
-    console.log('Sending email to:', NOTIFICATION_EMAIL);
-    await mailService.send(emailContent);
+    console.log('Initiating SendGrid API call...');
+    const [response] = await mailService.send(emailContent);
+    console.log('SendGrid API Response:', {
+      statusCode: response.statusCode,
+      headers: response.headers,
+      body: response.body
+    });
     console.log('Email notification sent successfully');
     return true;
-  } catch (error: any) { // Type assertion to handle unknown error type
-    console.error('SendGrid email error:', error);
-    if (error.response) {
-      console.error('SendGrid API response:', {
-        status: error.response.status,
-        body: error.response.body
-      });
-    }
+  } catch (error: any) {
+    console.error('SendGrid email error:', {
+      message: error.message,
+      code: error.code,
+      response: error.response?.body,
+    });
     return false;
   }
 }
