@@ -67,7 +67,7 @@ Sent from Awrari Business Solutions Contact Form
     await mailService.send(emailContent);
     console.log('Email notification sent successfully');
     return true;
-  } catch (error) {
+  } catch (error: any) { // Type assertion to handle unknown error type
     console.error('SendGrid email error:', error);
     if (error.response) {
       console.error('SendGrid API response:', {
