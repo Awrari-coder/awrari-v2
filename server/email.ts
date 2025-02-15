@@ -12,6 +12,12 @@ const SENDER_EMAIL = 'noreply@awraribusinesssolution.replit.app';
 const NOTIFICATION_EMAIL = 'dagidessalegn@businessawrari.com';
 
 export async function sendInquiryNotification(inquiry: InsertInquiry) {
+  console.log('Attempting to send email notification for inquiry:', {
+    name: inquiry.name,
+    email: inquiry.email,
+    service: inquiry.service
+  });
+
   const emailContent = {
     to: NOTIFICATION_EMAIL,
     from: SENDER_EMAIL,
@@ -53,11 +59,18 @@ Sent from Awrari Business Solutions Contact Form
   };
 
   try {
+    console.log('Sending email to:', NOTIFICATION_EMAIL);
     await mailService.send(emailContent);
     console.log('Email notification sent successfully');
     return true;
   } catch (error) {
     console.error('SendGrid email error:', error);
+    if (error.response) {
+      console.error('SendGrid API response:', {
+        status: error.response.status,
+        body: error.response.body
+      });
+    }
     return false;
   }
 }
