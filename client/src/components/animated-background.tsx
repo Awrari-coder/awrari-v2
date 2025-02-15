@@ -35,21 +35,22 @@ const icons = [
   SiHubspot
 ];
 
-// Create 20 random icon positions
+// Create 20 random icon positions focused more in the center area
 const iconElements = Array.from({ length: 20 }, (_, i) => ({
   Icon: icons[i % icons.length],
   position: {
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    scale: 0.5 + Math.random() * 0.5,
+    // Position icons in a wider area around the content
+    x: 20 + Math.random() * 60, // position between 20-80% of width
+    y: 10 + Math.random() * 80, // position between 10-90% of height
+    scale: 0.6 + Math.random() * 0.4, // Slightly larger icons
   },
-  duration: 20 + Math.random() * 30,
-  delay: Math.random() * -30,
+  duration: 6 + Math.random() * 8, // Even faster animations for more dynamic feel
+  delay: Math.random() * -15,
 }));
 
 export default function AnimatedBackground() {
   return (
-    <div className="absolute inset-0 overflow-hidden -z-10">
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {iconElements.map((item, index) => (
         <motion.div
           key={index}
@@ -59,10 +60,10 @@ export default function AnimatedBackground() {
             top: `${item.position.y}%`,
           }}
           animate={{
-            y: [0, -30, 0],
-            x: [0, 15, 0],
-            rotate: [0, 10, -10, 0],
-            scale: [item.position.scale, item.position.scale * 1.2, item.position.scale],
+            y: [0, -15, 0],
+            x: [0, 8, 0],
+            rotate: [0, 3, -3, 0],
+            scale: [item.position.scale, item.position.scale * 1.15, item.position.scale],
           }}
           transition={{
             duration: item.duration,
@@ -74,7 +75,7 @@ export default function AnimatedBackground() {
         >
           <item.Icon 
             className={`w-12 h-12 md:w-16 md:h-16 ${
-              index % 2 === 0 ? "text-primary/[0.03]" : "text-primary/[0.02]"
+              index % 2 === 0 ? "text-primary/[0.07]" : "text-primary/[0.05]"
             }`}
           />
         </motion.div>
