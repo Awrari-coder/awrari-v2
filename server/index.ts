@@ -8,7 +8,7 @@ app.use(express.urlencoded({ extended: false }));
 
 const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || 
   (process.env.NODE_ENV === "production" 
-    ? ['https://awraribusinesssolution.replit.app']
+    ? ['https://your-vercel-domain.vercel.app']
     : ['*']);
 
 // Security headers
@@ -40,10 +40,10 @@ app.use((req, res, next) => {
   next();
 });
 
-async function startServer(port: number, retries = 3): Promise<void> {
-  try {
-    const server = await registerRoutes(app);
-
+// For Vercel serverless deployment
+if (process.env.VERCEL) {
+  // Register routes without creating HTTP server
+  registerRoutes(app).then(() => {
     // Error handling middleware
     app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
       const status = err.status || err.statusCode || 500;
@@ -51,38 +51,56 @@ async function startServer(port: number, retries = 3): Promise<void> {
       res.status(status).json({ message });
       console.error(err);
     });
+  });
 
-    if (process.env.NODE_ENV !== "production") {
-      await setupVite(app, server);
-    } else {
-      serveStatic(app);
+  // Export for Vercel
+  module.exports = app;
+} else {
+  // Regular server startup for non-Vercel environments
+  async function startServer(port: number, retries = 3): Promise<void> {
+    try {
+      const server = await registerRoutes(app);
+
+      // Error handling middleware
+      app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+        const status = err.status || err.statusCode || 500;
+        const message = err.message || "Internal Server Error";
+        res.status(status).json({ message });
+        console.error(err);
+      });
+
+      if (process.env.NODE_ENV !== "production") {
+        await setupVite(app, server);
+      } else {
+        serveStatic(app);
+      }
+
+      return new Promise((resolve, reject) => {
+        server.listen(port, "0.0.0.0")
+          .once('listening', () => {
+            log(`Server running on port ${port} in ${process.env.NODE_ENV || 'development'} mode`);
+            resolve();
+          })
+          .once('error', (err: NodeJS.ErrnoException) => {
+            if (err.code === 'EADDRINUSE' && retries > 0) {
+              log(`Port ${port} in use, trying port ${port + 1}...`);
+              server.close();
+              startServer(port + 1, retries - 1).then(resolve).catch(reject);
+            } else {
+              reject(err);
+            }
+          });
+      });
+    } catch (error) {
+      log('Failed to start server:', error);
+      throw error;
     }
-
-    return new Promise((resolve, reject) => {
-      server.listen(port, "0.0.0.0")
-        .once('listening', () => {
-          log(`Server running on port ${port} in ${process.env.NODE_ENV || 'development'} mode`);
-          resolve();
-        })
-        .once('error', (err: NodeJS.ErrnoException) => {
-          if (err.code === 'EADDRINUSE' && retries > 0) {
-            log(`Port ${port} in use, trying port ${port + 1}...`);
-            server.close();
-            startServer(port + 1, retries - 1).then(resolve).catch(reject);
-          } else {
-            reject(err);
-          }
-        });
-    });
-  } catch (error) {
-    log('Failed to start server:', error);
-    throw error;
   }
-}
 
-// Start server with initial port
-const initialPort = parseInt(process.env.PORT || "5000", 10);
-startServer(initialPort).catch((error) => {
-  console.error('Failed to start server after all retries:', error);
-  process.exit(1);
-});
+  // Start server with initial port
+  const initialPort = parseInt(process.env.PORT || "5000", 10);
+  startServer(initialPort).catch((error) => {
+    console.error('Failed to start server after all retries:', error);
+    process.exit(1);
+  });
+}

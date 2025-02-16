@@ -1,29 +1,11 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import { storage } from "./storage";
 import { insertInquirySchema } from "@shared/schema";
 import { ZodError } from "zod";
-import { setupAuth } from "./auth";
 import { log } from "./vite";
 import { sendInquiryNotification } from "./email";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  setupAuth(app);
-
-  app.get("/api/inquiries", async (req, res) => {
-    if (!req.isAuthenticated()) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-
-    try {
-      const inquiries = await storage.getInquiries();
-      res.json(inquiries);
-    } catch (err) {
-      log(`Error fetching inquiries: ${err}`);
-      res.status(500).json({ message: "Internal server error" });
-    }
-  });
-
   app.post("/api/inquiries", async (req, res) => {
     try {
       log("=== Starting new inquiry submission ===");
@@ -32,33 +14,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const inquiry = insertInquirySchema.parse(req.body);
       log(`Validation passed, processing inquiry from: ${inquiry.email}`);
 
-      const created = await storage.createInquiry(inquiry);
-      log(`Successfully stored inquiry in database, ID: ${created.id}`);
-
-      sendInquiryNotification(inquiry)
-        .then((sent) => {
-          if (sent) {
-            log('Email notification sent successfully');
-            res.json({
-              data: created,
-              message: "Your message was received and notification sent successfully"
-            });
-          } else {
-            log('Email notification failed - but inquiry was saved');
-            res.status(207).json({
-              data: created,
-              message: "Your message was saved but we couldn't send the email notification"
-            });
-          }
-        })
-        .catch((error) => {
-          log(`Email error: ${error}`);
-          res.status(207).json({
-            data: created,
-            message: "Your message was saved but there was an issue with the email notification"
-          });
+      const sent = await sendInquiryNotification(inquiry);
+      if (sent) {
+        log('Email notification sent successfully');
+        res.json({
+          message: "Your message was received and sent successfully"
         });
-
+      } else {
+        log('Email notification failed');
+        res.status(500).json({
+          message: "Failed to send your message. Please try again later."
+        });
+      }
     } catch (err) {
       if (err instanceof ZodError) {
         const errorMessage = err.errors[0].message;
