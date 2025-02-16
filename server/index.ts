@@ -57,7 +57,7 @@ if (process.env.VERCEL) {
   module.exports = app;
 } else {
   // Regular server startup for non-Vercel environments
-  async function startServer(port: number, retries = 3): Promise<void> {
+  const startServer = async (port: number, retries = 3): Promise<void> => {
     try {
       const server = await registerRoutes(app);
 
@@ -92,10 +92,11 @@ if (process.env.VERCEL) {
           });
       });
     } catch (error) {
-      log('Failed to start server:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      log('Failed to start server:', errorMessage);
       throw error;
     }
-  }
+  };
 
   // Start server with initial port
   const initialPort = parseInt(process.env.PORT || "5000", 10);

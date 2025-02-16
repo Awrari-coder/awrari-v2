@@ -24,7 +24,6 @@ import {
 } from "@/components/ui/select";
 import { Loader2 } from "lucide-react";
 
-// Service options matching our services section
 const SERVICE_OPTIONS = [
   {
     value: "digital-marketing",
@@ -49,7 +48,7 @@ export default function ContactSection() {
       email: "",
       company: "",
       message: "",
-      service: "",
+      service: "digital-marketing", // Set a default valid value
     },
   });
 
@@ -72,7 +71,13 @@ export default function ContactSection() {
         description: "Thank you for reaching out. We'll get back to you soon!",
         variant: "default",
       });
-      form.reset();
+      form.reset({
+        name: "",
+        email: "",
+        company: "",
+        message: "",
+        service: "digital-marketing", // Reset to default valid value
+      });
 
       // Scroll to contact section
       const contactSection = document.getElementById('contact');

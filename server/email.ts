@@ -49,28 +49,17 @@ ${inquiry.message}
     `
   };
 
-  log('Attempting to send email notification:', {
-    to: VERIFIED_EMAIL,
-    from: msg.from,
-    subject: msg.subject
-  });
+  log(`Attempting to send email notification to: ${msg.to}`);
 
   return sgMail
     .send(msg)
     .then((response) => {
       const [firstResponse] = response;
-      log("SendGrid API Response:", {
-        statusCode: firstResponse?.statusCode,
-        headers: firstResponse?.headers,
-      });
+      log(`SendGrid API Response Status: ${firstResponse?.statusCode}`);
       return true;
     })
     .catch((error) => {
-      console.error("SendGrid error:", {
-        message: error.message,
-        code: error.code,
-        response: error.response?.body,
-      });
+      console.error("SendGrid error:", error.message);
 
       // Log specific SendGrid error codes for debugging
       if (error.code === 401) {
