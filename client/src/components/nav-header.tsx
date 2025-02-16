@@ -48,8 +48,8 @@ export default function NavHeader() {
             </Link>
           ))}
           <Link href="/contact">
-            <Button as="a" className="cursor-pointer">
-              Get Consultation
+            <Button asChild>
+              <a className="cursor-pointer">Get Consultation</a>
             </Button>
           </Link>
         </div>
@@ -90,12 +90,8 @@ export default function NavHeader() {
                 </Link>
               ))}
               <Link href="/contact">
-                <Button 
-                  as="a"
-                  className="w-full cursor-pointer" 
-                  onClick={() => setIsOpen(false)}
-                >
-                  Get Consultation
+                <Button asChild onClick={() => setIsOpen(false)}>
+                  <a className="w-full cursor-pointer">Get Consultation</a>
                 </Button>
               </Link>
             </div>

@@ -65,23 +65,23 @@ type AnimatedElement = {
 const elements: AnimatedElement[] = [
   // Icons spread across the hero section
   ...Array.from({ length: 15 }, (_, i) => ({
-    type: 'icon',
+    type: 'icon' as const,
     Icon: icons[i % icons.length],
-    x: Math.random() * 80 + 10, // Random position between 10% and 90% of width
-    y: Math.random() * 60 + 20, // Random position between 20% and 80% of height
-    scale: 0.6 + Math.random() * 0.3, // Random scale between 0.6 and 0.9
-    rotate: Math.random() * 360, // Random rotation
-    delay: i * 0.2 // Staggered delay for each element
+    x: Math.random() * 80 + 10,
+    y: Math.random() * 60 + 20,
+    scale: 0.6 + Math.random() * 0.3,
+    rotate: Math.random() * 360,
+    delay: i * 0.2
   })),
   // Shapes spread across the hero section
   ...Array.from({ length: 10 }, (_, i) => ({
-    type: 'shape',
+    type: 'shape' as const,
     shape: shapes[i % shapes.length],
     x: Math.random() * 80 + 10,
     y: Math.random() * 60 + 20,
     scale: 0.4 + Math.random() * 0.2,
     rotate: Math.random() * 360,
-    delay: (i + 15) * 0.2 // Continue the staggered delay after icons
+    delay: (i + 15) * 0.2
   }))
 ];
 
@@ -94,26 +94,26 @@ export default function AnimatedBackground() {
           className="absolute text-primary"
           initial={{ 
             opacity: 0,
-            x: item.x + '%',
-            y: item.y + '%',
+            x: `${item.x}%`,
+            y: `${item.y}%`,
             scale: 0,
             rotate: item.rotate - 20
           }}
           animate={{
             opacity: [0, 1, 1, 1, 0],
             y: [
-              item.y + '%',
-              item.y - 2 + '%',
-              item.y + 2 + '%',
-              item.y - 1 + '%',
-              item.y - 5 + '%'
+              `${item.y}%`,
+              `${item.y - 2}%`,
+              `${item.y + 2}%`,
+              `${item.y - 1}%`,
+              `${item.y - 5}%`
             ],
             x: [
-              item.x + '%',
-              item.x + 2 + '%',
-              item.x - 2 + '%',
-              item.x + 1 + '%',
-              item.x + '%'
+              `${item.x}%`,
+              `${item.x + 2}%`,
+              `${item.x - 2}%`,
+              `${item.x + 1}%`,
+              `${item.x}%`
             ],
             rotate: [
               item.rotate - 20,
@@ -128,7 +128,7 @@ export default function AnimatedBackground() {
             duration: 20,
             delay: item.delay,
             repeat: Infinity,
-            repeatDelay: Math.random() * 10, // Random delay between repetitions
+            repeatDelay: Math.random() * 10,
             ease: "easeInOut",
           }}
         >
